@@ -1,0 +1,60 @@
+AllCops:
+  TargetRubyVersion: 2.5
+  Exclude:
+    - 'bin/*'
+    - 'Guardfile'
+
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
+
+Metrics/AbcSize:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Layout/ElseAlignment:
+  Enabled: false
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Lint/EndAlignment:
+  EnforcedStyleAlignWith: start_of_line
+
+Layout/AccessModifierIndentation:
+  EnforcedStyle: outdent
+
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Bundler/OrderedGems:
+  Enabled: false
