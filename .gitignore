@@ -2,3 +2,5 @@
 log/*.log
 pkg/
 Gemfile.lock
+/.rspec_status
+/tmp
