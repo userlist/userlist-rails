@@ -24,17 +24,19 @@ module Userlist
       end
 
       initializer 'userlist.models' do
-        if config.userlist.auto_discover
-          config.userlist.user_model ||= detect_model('User')
-          config.userlist.company_model ||= detect_model('Account', 'Company')
-        end
+        config.after_initialize do
+          if config.userlist.auto_discover
+            config.userlist.user_model ||= detect_model('User')
+            config.userlist.company_model ||= detect_model('Account', 'Company')
+          end
 
-        if user_model = config.userlist.user_model
-          user_model.send(:include, Userlist::Rails::User)
-        end
+          if user_model = config.userlist.user_model
+            user_model.send(:include, Userlist::Rails::User)
+          end
 
-        if company_model = config.userlist.company_model
-          company_model.send(:include, Userlist::Rails::Company)
+          if company_model = config.userlist.company_model
+            company_model.send(:include, Userlist::Rails::Company)
+          end
         end
       end
 
