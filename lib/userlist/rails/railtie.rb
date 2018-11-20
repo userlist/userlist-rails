@@ -29,12 +29,16 @@ module Userlist
             config.userlist.user_model ||= detect_model('User')
             config.userlist.company_model ||= detect_model('Account', 'Company')
           end
+        end
 
-          if user_model = config.userlist.user_model
+        config.to_prepare do
+          userlist = ::Rails.application.config.userlist
+
+          if user_model = userlist.user_model
             user_model.send(:include, Userlist::Rails::User)
           end
 
-          if company_model = config.userlist.company_model
+          if company_model = userlist.company_model
             company_model.send(:include, Userlist::Rails::Company)
           end
         end
