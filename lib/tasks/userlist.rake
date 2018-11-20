@@ -9,11 +9,7 @@ namespace :userlist do
       if user_model = Rails.application.config.userlist.user_model
         importer = Userlist::Rails::Importer.new
         importer.import(user_model) do |user|
-          push.user(
-            identifier: user.userlist_identifier,
-            email: user.userlist_email,
-            properties: user.userlist_properties
-          )
+          push.user(user.send(:userlist_attributes))
         end
       else
         puts 'No user model defined. Skipping import.'
@@ -25,11 +21,7 @@ namespace :userlist do
       if company_model = Rails.application.config.userlist.company_model
         importer = Userlist::Rails::Importer.new
         importer.import(company_model) do |company|
-          push.company(
-            identifier: company.userlist_identifier,
-            name: company.userlist_name,
-            properties: company.userlist_properties
-          )
+          push.company(company.send(:userlist_attributes))
         end
       else
         puts 'No company model defined. Skipping import.'

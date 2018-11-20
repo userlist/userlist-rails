@@ -24,36 +24,26 @@ module Userlist
       end
 
       initializer 'userlist.models' do
-        config.after_initialize do
-          if config.userlist.auto_discover
-            config.userlist.user_model ||= detect_model('User')
-            config.userlist.company_model ||= detect_model('Account', 'Company')
-          end
-        end
-
         config.to_prepare do
           userlist = ::Rails.application.config.userlist
 
+          if userlist.auto_discover
+            Userlist.logger.info('Automatically discovering models')
+
+            userlist.user_model ||= Userlist::Rails.detect_model('User')
+            userlist.company_model ||= Userlist::Rails.detect_model('Account', 'Company')
+          end
+
           if user_model = userlist.user_model
+            Userlist.logger.info("Preparing user model #{user_model}")
             user_model.send(:include, Userlist::Rails::User)
           end
 
           if company_model = userlist.company_model
+            Userlist.logger.info("Preparing company model #{company_model}")
             company_model.send(:include, Userlist::Rails::Company)
           end
         end
-      end
-
-      def detect_model(*names)
-        names.each do |name|
-          begin
-            return name.constantize
-          rescue NameError
-            false
-          end
-        end
-
-        nil
       end
     end
   end
