@@ -10,11 +10,7 @@ module Userlist
         push = Userlist::Push.new
 
         block = lambda do
-          push.user(
-            identifier: userlist_identifier,
-            email: userlist_email,
-            properties: userlist_properties
-          )
+          push.user(userlist_attributes)
         end
 
         if respond_to?(:after_commit)
@@ -34,6 +30,19 @@ module Userlist
 
       def userlist_email
         return email if respond_to?(:email)
+      end
+
+      def userlist_company
+        nil
+      end
+
+      def userlist_attributes
+        {
+          identifier: userlist_identifier,
+          email: userlist_email,
+          company: userlist_company.try(:userlist_attributes),
+          properties: userlist_properties
+        }
       end
     end
   end
