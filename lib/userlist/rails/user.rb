@@ -38,7 +38,7 @@ module Userlist
         {
           identifier: userlist_identifier,
           email: userlist_email,
-          company: userlist_company.try(:userlist_attributes),
+          company: userlist_company,
           properties: userlist_properties
         }
       end

@@ -3,6 +3,7 @@ require 'rails/railtie'
 require 'userlist'
 require 'userlist/config'
 require 'userlist/rails/logger'
+require 'userlist/rails/push'
 require 'userlist/rails/user'
 require 'userlist/rails/company'
 
@@ -21,6 +22,10 @@ module Userlist
         config.after_initialize do
           Userlist.logger = Userlist::Rails::Logger.new(::Rails.logger, config.userlist)
         end
+      end
+
+      initializer 'userlist.extensions' do
+        Userlist::Push.send(:prepend, Userlist::Rails::Push)
       end
 
       initializer 'userlist.models' do
