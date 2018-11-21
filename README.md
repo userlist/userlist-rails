@@ -18,9 +18,92 @@ Or install it yourself as:
 
     $ gem install userlist-rails
 
+## Configuration
+
+The only required configuration is the Push API key. You can get your Push API key via the [Push API settings](https://app.userlist.io/settings/push) in your Userlist.io account.
+
+Configuration values can either be set via an initializer or as environment variables. The environment take precedence over configuration values from the initializer. Please refer to the [userlist-ruby](http://github.com/userlistio/userlist-ruby) gem for additional configuration options.
+
+Configuration via environment variables:
+
+```shell
+USERLIST_PUSH_KEY=401e5c498be718c0a38b7da7f1ce5b409c56132a49246c435ee296e07bf2be39
+```
+
+Configuration via an initializer:
+
+```ruby
+# config/initializer/userlist.rb
+Userlist.configure do |config|
+  config.push_key = '401e5c498be718c0a38b7da7f1ce5b409c56132a49246c435ee296e07bf2be39'
+end
+```
+
 ## Usage
 
-TODO: Write usage instructions here
+### Tracking Users
+
+#### Sending user data automatically
+
+By default, this gem will automatically detect your `User` model and create and update the corresponding user inside of Userlist. To customize the `identifier`, `email`, or `properties` transmitted for a user, you can overwrite the according methods in your `User` model.
+
+```ruby
+class User < ApplicationRecord
+  def userlist_properties
+    { first_name: first_name, last_name: last_name }
+  end
+
+  def userlist_identifier
+    "user-#{id}"
+  end
+
+  def userlist_email
+    email
+  end
+end
+```
+
+#### Sending user data manually
+
+To manually send user data into Userlist, use the `Userlist::Push.user` method.
+
+```ruby
+Userlist::Push.event(identifier: user.id, email: user.email, properties: { first_name: user.first_name, last_name: user.last_name })
+```
+
+### Tracking Events
+
+To track custom events use the `Userlist::Push.event` method.
+
+```ruby
+Userlist::Push.event(name: 'project_created', user: current_user, properties: { project_name: project.name })
+```
+
+It is possible to make the `user` property optional by setting it for the entire request using an `around_action` callback in your `ApplicationController`.
+
+```ruby
+class ApplicationController < ActionController::Base
+  around_action :setup_userlist_current_user
+
+  def setup_userlist_current_user(&block)
+    Userlist::Rails.with_current_user(current_user, &block)
+  end
+end
+```
+
+This simplifies the tracking call for the current request.
+
+```ruby
+Userlist::Push.event(name: 'project_created', properties: { project_name: project.name })
+```
+
+### Batch importing
+
+You can import (and update) all your existing users and companies into Userlist by running the import rake task:
+
+```shell
+rake userlist:import
+```
 
 ## Development
 
