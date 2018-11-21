@@ -7,7 +7,6 @@ module Userlist
       extend ActiveSupport::Concern
 
       included do
-
         block = lambda do
           Userlist::Push.user(userlist_attributes)
         end

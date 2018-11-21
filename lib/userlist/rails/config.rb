@@ -14,8 +14,7 @@ module Userlist
       end
 
       def auto_discover
-        auto_discover = super
-        auto_discover == true || auto_discover == 'true'
+        [true, 'true'].include?(super)
       end
 
       def user_model

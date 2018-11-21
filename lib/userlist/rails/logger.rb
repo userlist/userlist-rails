@@ -10,6 +10,7 @@ module Userlist
 
       def add(severity, message = nil, progname = nil)
         return true if (severity || UNKNOWN) < level
+
         logger.add(severity, "[userlist-rails] #{message}", progname)
       end
 
