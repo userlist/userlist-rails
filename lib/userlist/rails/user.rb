@@ -39,7 +39,8 @@ module Userlist
           identifier: userlist_identifier,
           email: userlist_email,
           company: userlist_company,
-          properties: userlist_properties
+          properties: userlist_properties,
+          signed_up_at: created_at
         }
       end
     end
