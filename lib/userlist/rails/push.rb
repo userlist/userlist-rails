@@ -2,6 +2,8 @@ module Userlist
   module Rails
     module Push
       def event(payload = {})
+        payload[:user] ||= Userlist::Rails.current_user
+
         super(transform_payload(payload))
       end
       alias track event
