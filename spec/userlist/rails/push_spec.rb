@@ -10,7 +10,7 @@ RSpec.describe Userlist::Rails::Push do
   end
 
   let(:model) do
-    Struct.new(:userlist_attributes)
+    Struct.new(:userlist_payload)
   end
 
   describe '#user' do

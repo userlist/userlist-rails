@@ -8,7 +8,7 @@ module Userlist
 
       included do
         block = lambda do
-          Userlist::Push.user(userlist_attributes)
+          Userlist::Push.user(userlist_payload)
         end
 
         if respond_to?(:after_commit)
@@ -34,7 +34,7 @@ module Userlist
         nil
       end
 
-      def userlist_attributes
+      def userlist_payload
         {
           identifier: userlist_identifier,
           email: userlist_email,

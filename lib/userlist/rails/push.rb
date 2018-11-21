@@ -26,8 +26,8 @@ module Userlist
       end
 
       def transform_value(value)
-        if value.respond_to?(:userlist_attributes)
-          value.send(:userlist_attributes)
+        if value.respond_to?(:userlist_payload)
+          value.send(:userlist_payload)
         else
           value
         end
