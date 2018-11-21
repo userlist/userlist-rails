@@ -7,10 +7,8 @@ module Userlist
       extend ActiveSupport::Concern
 
       included do
-        push = Userlist::Push.new
-
         block = lambda do
-          push.company(userlist_attributes)
+          Userlist::Push.company(userlist_attributes)
         end
 
         if respond_to?(:after_commit)
