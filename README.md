@@ -39,6 +39,18 @@ Userlist.configure do |config|
 end
 ```
 
+### Disabling in development and test environments
+
+As sending test and development data into data into Userlist isn't very desireable, you can disable transmissions by setting the push strategy to `:null`.
+
+```ruby
+# config/initializer/userlist.rb
+Userlist.configure do |config|
+  config.push_strategy = :null unless Rails.env.production?
+end
+```
+
+
 ## Usage
 
 ### Tracking Users
