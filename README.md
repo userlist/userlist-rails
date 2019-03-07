@@ -80,7 +80,7 @@ end
 To manually send user data into Userlist, use the `Userlist::Push.user` method.
 
 ```ruby
-Userlist::Push.event(identifier: user.id, email: user.email, properties: { first_name: user.first_name, last_name: user.last_name })
+Userlist::Push.user(identifier: user.id, email: user.email, properties: { first_name: user.first_name, last_name: user.last_name })
 ```
 
 ### Tracking Events
