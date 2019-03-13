@@ -7,15 +7,8 @@ module Userlist
       extend ActiveSupport::Concern
 
       included do
-        block = lambda do
-          Userlist::Push.user(userlist_payload)
-        end
-
-        if respond_to?(:after_commit)
-          after_commit(&block)
-        elsif respond_to?(:after_save)
-          after_save(&block)
-        end
+        method = [:after_commit, :after_save].find { |m| respond_to?(m) }
+        public_send(method, :userlist_push) if method
       end
 
       def userlist_identifier
@@ -42,6 +35,10 @@ module Userlist
           properties: userlist_properties,
           signed_up_at: created_at
         }
+      end
+
+      def userlist_push
+        Userlist::Push.user(userlist_payload)
       end
     end
   end
