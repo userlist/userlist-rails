@@ -1,7 +1,7 @@
 class TestLogger < Logger
   def initialize
     super(io)
-    self.level = :debug
+    self.level = Logger::DEBUG
   end
 
   def messages

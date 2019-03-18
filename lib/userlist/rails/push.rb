@@ -1,3 +1,5 @@
+require 'active_support/core_ext/hash/transform_values'
+
 module Userlist
   module Rails
     module Push
