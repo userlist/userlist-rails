@@ -1,4 +1,4 @@
-# Userlist::Rails
+# Userlist::Rails [![Build Status](https://travis-ci.com/userlistio/userlist-rails.svg?branch=master)](https://travis-ci.com/userlistio/userlist-rails)
 
 This gem helps with integrating [Userlist.io](http://userlist.io) into Ruby on Rails applications.
 
