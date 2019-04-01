@@ -1,4 +1,6 @@
-require 'active_support/core_ext/hash/transform_values'
+if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.5.0')
+  require 'active_support/core_ext/hash/transform_values'
+end
 
 module Userlist
   module Rails
