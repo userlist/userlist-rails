@@ -7,8 +7,10 @@ module Userlist
       extend ActiveSupport::Concern
 
       included do
-        method = [:after_commit, :after_save].find { |m| respond_to?(m) }
-        public_send(method, :userlist_push) if method
+        if method = [:after_commit, :after_save].find { |m| respond_to?(m) }
+          public_send(method, :userlist_push, on: [:create, :update])
+          public_send(method, :userlist_delete, on: [:destroy])
+        end
       end
 
       def userlist_identifier
@@ -38,7 +40,11 @@ module Userlist
       end
 
       def userlist_push
-        Userlist::Push.user(userlist_payload)
+        Userlist::Push.users.push(userlist_payload)
+      end
+
+      def userlist_delete
+        Userlist::Push.users.delete(userlist_identifier)
       end
     end
   end
