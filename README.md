@@ -57,7 +57,7 @@ end
 
 #### Sending user data automatically
 
-By default, this gem will automatically detect your `User` model and create and update the corresponding user inside of Userlist. To customize the `identifier`, `email`, or `properties` transmitted for a user, you can overwrite the according methods in your `User` model.
+By default, this gem will automatically detect your `User` model and create, update, and delete the corresponding user inside of Userlist. To customize the `identifier`, `email`, or `properties` transmitted for a user, you can overwrite the according methods in your `User` model.
 
 ```ruby
 class User < ApplicationRecord
@@ -77,18 +77,24 @@ end
 
 #### Sending user data manually
 
-To manually send user data into Userlist, use the `Userlist::Push.user` method.
+To manually send user data into Userlist, use the `Userlist::Push.users.push` method.
 
 ```ruby
-Userlist::Push.user(identifier: user.id, email: user.email, properties: { first_name: user.first_name, last_name: user.last_name })
+Userlist::Push.users.push(identifier: user.id, email: user.email, properties: { first_name: user.first_name, last_name: user.last_name })
+```
+
+It's also possible to delete a user from Userlist, using the `Userlist::Push.users.delete` method.
+
+```ruby
+Userlist::Push.users.delete(user.id)
 ```
 
 ### Tracking Events
 
-To track custom events use the `Userlist::Push.event` method.
+To track custom events use the `Userlist::Push.events.push` method.
 
 ```ruby
-Userlist::Push.event(name: 'project_created', user: current_user, properties: { project_name: project.name })
+Userlist::Push.events.push(name: 'project_created', user: current_user, properties: { project_name: project.name })
 ```
 
 It is possible to make the `user` property optional by setting it for the entire request using an `around_action` callback in your `ApplicationController`.
@@ -106,7 +112,7 @@ end
 This simplifies the tracking call for the current request.
 
 ```ruby
-Userlist::Push.event(name: 'project_created', properties: { project_name: project.name })
+Userlist::Push.events.push(name: 'project_created', properties: { project_name: project.name })
 ```
 
 ### Batch importing
