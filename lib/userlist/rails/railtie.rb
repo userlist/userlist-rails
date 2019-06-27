@@ -3,9 +3,11 @@ require 'rails/railtie'
 require 'userlist'
 require 'userlist/config'
 require 'userlist/rails/logger'
-require 'userlist/rails/push'
 require 'userlist/rails/user'
 require 'userlist/rails/company'
+
+require 'userlist/rails/extensions/resource'
+require 'userlist/rails/extensions/event'
 
 module Userlist
   module Rails
@@ -25,7 +27,8 @@ module Userlist
       end
 
       initializer 'userlist.extensions' do
-        Userlist::Push.send(:prepend, Userlist::Rails::Push)
+        Userlist::Push::Resource.send(:prepend, Userlist::Rails::Extensions::Resource)
+        Userlist::Push::Event.send(:prepend, Userlist::Rails::Extensions::Event)
       end
 
       initializer 'userlist.models' do
