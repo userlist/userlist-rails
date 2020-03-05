@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.3
   Exclude:
     - 'bin/*'
     - 'Guardfile'
@@ -32,13 +32,10 @@ Layout/ElseAlignment:
 Lint/AssignmentInCondition:
   Enabled: false
 
-Lint/EndAlignment:
-  EnforcedStyleAlignWith: start_of_line
-
 Layout/AccessModifierIndentation:
   EnforcedStyle: outdent
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   EnforcedStyle: with_fixed_indentation
 
 Style/FrozenStringLiteralComment:

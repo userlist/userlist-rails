@@ -18,13 +18,11 @@ module Userlist
       end
 
       def user_model
-        model = super
-        model && model.to_s.constantize
+        super&.to_s&.constantize
       end
 
       def company_model
-        model = super
-        model && model.to_s.constantize
+        super&.to_s&.constantize
       end
 
       Userlist::Config.send(:prepend, self)

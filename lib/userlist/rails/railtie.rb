@@ -27,8 +27,8 @@ module Userlist
       end
 
       initializer 'userlist.extensions' do
-        Userlist::Push::Resource.send(:prepend, Userlist::Rails::Extensions::Resource)
-        Userlist::Push::Event.send(:prepend, Userlist::Rails::Extensions::Event)
+        Userlist::Push::Resource.prepend(Userlist::Rails::Extensions::Resource)
+        Userlist::Push::Event.prepend(Userlist::Rails::Extensions::Event)
       end
 
       initializer 'userlist.models' do
