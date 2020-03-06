@@ -4,6 +4,8 @@ require 'userlist/rails/railtie'
 require 'userlist/rails/extensions/resource'
 require 'userlist/rails/extensions/event'
 
+require 'userlist/rails/helpers'
+
 module Userlist
   module Rails
     def self.with_current_user(user)

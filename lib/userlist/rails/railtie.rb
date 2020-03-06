@@ -9,6 +9,8 @@ require 'userlist/rails/company'
 require 'userlist/rails/extensions/resource'
 require 'userlist/rails/extensions/event'
 
+require 'userlist/rails/helpers'
+
 module Userlist
   module Rails
     class Railtie < ::Rails::Railtie
@@ -23,6 +25,12 @@ module Userlist
       initializer 'userlist.logger' do
         config.after_initialize do
           Userlist.logger = Userlist::Rails::Logger.new(::Rails.logger, config.userlist)
+        end
+      end
+
+      initializer 'userlist.helpers' do
+        ActiveSupport.on_load :action_view do
+          include Userlist::Rails::Helpers
         end
       end
 
