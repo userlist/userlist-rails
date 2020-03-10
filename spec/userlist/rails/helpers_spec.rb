@@ -9,6 +9,10 @@ RSpec.describe Userlist::Rails::Helpers, type: :helper do
       expect(subject).to match(%{<script[^>]*></script>})
     end
 
+    it 'should initialize the queue' do
+      expect(subject).to match(/window\.userlist/)
+    end
+
     it 'should be marked as async' do
       expect(subject).to match(/async/)
     end

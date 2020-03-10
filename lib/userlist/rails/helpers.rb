@@ -20,7 +20,10 @@ module Userlist
           options[:data][:userlist] = Userlist::Token.generate(identifier)
         end
 
-        javascript_include_tag(config.script_url, options)
+        script_tag = javascript_tag('window.userlist=window.userlist||function(){(userlist.q=userlist.q||[]).push(arguments)};')
+        include_tag = javascript_include_tag(config.script_url, options)
+
+        script_tag + include_tag
       rescue Userlist::Error => e
         logger.error(e.message)
         raw("<!-- #{e.class}: #{e.message} -->") unless ::Rails.env.production?
