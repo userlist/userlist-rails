@@ -4,7 +4,7 @@ require 'userlist/rails/importer'
 
 namespace :userlist do
   namespace :import do
-    desc 'Import users into Userlist.io'
+    desc 'Import users into Userlist'
     task users: :environment do
       if user_model = Rails.application.config.userlist.user_model
         importer = Userlist::Rails::Importer.new
@@ -16,7 +16,7 @@ namespace :userlist do
       end
     end
 
-    desc 'Import companies into Userlist.io'
+    desc 'Import companies into Userlist'
     task companies: :environment do
       if company_model = Rails.application.config.userlist.company_model
         importer = Userlist::Rails::Importer.new
@@ -29,7 +29,7 @@ namespace :userlist do
     end
   end
 
-  desc 'Import users and companies into Userlist.io'
+  desc 'Import users and companies into Userlist'
   task import: ['userlist:import:users', 'userlist:import:companies']
 end
 

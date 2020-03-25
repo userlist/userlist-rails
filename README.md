@@ -1,6 +1,6 @@
 # Userlist::Rails [![Build Status](https://travis-ci.com/userlistio/userlist-rails.svg?branch=master)](https://travis-ci.com/userlistio/userlist-rails)
 
-This gem helps with integrating [Userlist.io](http://userlist.io) into Ruby on Rails applications.
+This gem helps with integrating [Userlist](http://userlist.com) into Ruby on Rails applications.
 
 ## Installation
 
@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Configuration
 
-The only required configuration is the Push API key. You can get your Push API key via the [Push API settings](https://app.userlist.io/settings/push) in your Userlist.io account.
+The only required configuration is the Push API key. You can get your Push API key via the [Push API settings](https://app.userlist.com/settings/push) in your Userlist account.
 
 Configuration values can either be set via an initializer or as environment variables. The environment take precedence over configuration values from the initializer. Please refer to the [userlist-ruby](http://github.com/userlistio/userlist-ruby) gem for additional configuration options.
 

@@ -7,9 +7,9 @@ Gem::Specification.new do |spec|
   spec.name        = 'userlist-rails'
   spec.version     = Userlist::Rails::VERSION
   spec.authors     = ['Benedikt Deicke']
-  spec.email       = ['benedikt@userlist.io']
+  spec.email       = ['benedikt@userlist.com']
   spec.homepage    = 'https://github.com/userlistio/userlist-rails'
-  spec.summary     = 'Rails integration for Userlist.io'
+  spec.summary     = 'Rails integration for Userlist'
   spec.license     = 'MIT'
 
   spec.files       = `git ls-files -z`.split("\x0").reject do |f|
