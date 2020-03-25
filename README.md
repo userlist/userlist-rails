@@ -43,13 +43,12 @@ end
 
 In addition to the configuration options of the [userlist](http://github.com/userlistio/userlist-ruby#configuration) gem, the following options are available.
 
-| Name | Default value | Description |
-|------|---------------|-------------|
-| `user_model` | `nil` | The user model to use. Will be automatically set when `auto_discover` is `true` |
-| `company_model` | `nil` | The company model to use. Will be automatically set when `auto_discover` is `true` |
-| `auto_discover` | `true` | The gem will try to automatically identify your `User` and `Company` models. Possible values are `true` and `false`. |
-| `script_url` | `https://js.userlist.com/v1` | The script url to load the Userlist in-app messages script from. |
-
+| Name            | Default value                | Description                                                                                                          |
+| --------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `user_model`    | `nil`                        | The user model to use. Will be automatically set when `auto_discover` is `true`                                      |
+| `company_model` | `nil`                        | The company model to use. Will be automatically set when `auto_discover` is `true`                                   |
+| `auto_discover` | `true`                       | The gem will try to automatically identify your `User` and `Company` models. Possible values are `true` and `false`. |
+| `script_url`    | `https://js.userlist.com/v1` | The script url to load the Userlist in-app messages script from.                                                     |
 
 ### Disabling in development and test environments
 
@@ -61,7 +60,6 @@ Userlist.configure do |config|
   config.push_strategy = :null unless Rails.env.production?
 end
 ```
-
 
 ## Usage
 
@@ -88,7 +86,6 @@ class User < ApplicationRecord
   end
 end
 ```
-
 
 #### Sending user data manually
 
@@ -160,7 +157,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/userlistio/userlist-rails. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at <https://github.com/userlistio/userlist-rails>. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
