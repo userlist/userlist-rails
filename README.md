@@ -31,7 +31,7 @@ USERLIST_PUSH_KEY=VvB7pjDrv0V2hoaOCeZ5rIiUEPbEhSUN
 USERLIST_PUSH_ID=6vPkJl44cm82y4aLBIzaOhuEHJd0Bm7b
 ```
 
-Configuration via an initializer:˘
+Configuration via an initializer:
 
 ```ruby
 # config/initializer/userlist.rb
@@ -65,6 +65,8 @@ end
 
 ## Usage
 
+> ⚠️ **Important:** If you're using [Segment](https://segment.com) in combination with this gem, please make sure that both are using the same user identifier. By default, this gem will send `"user-#{id}"` (a combination of the user's primary key in the database and the `user-` prefix) as identifier. Either customize the `userlist_identifier` method on your User model, or ensure that you use the same identifier in your Segment integration.
+
 ### Tracking Users
 
 #### Sending user data automatically
@@ -86,6 +88,7 @@ class User < ApplicationRecord
   end
 end
 ```
+
 
 #### Sending user data manually
 
