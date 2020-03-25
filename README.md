@@ -1,4 +1,4 @@
-# Userlist::Rails [![Build Status](https://travis-ci.com/userlistio/userlist-rails.svg?branch=master)](https://travis-ci.com/userlistio/userlist-rails)
+# Userlist for Ruby on Rails [![Build Status](https://travis-ci.com/userlistio/userlist-rails.svg?branch=master)](https://travis-ci.com/userlistio/userlist-rails)
 
 This gem helps with integrating [Userlist](http://userlist.com) into Ruby on Rails applications.
 
@@ -27,21 +27,33 @@ Configuration values can either be set via an initializer or as environment vari
 Configuration via environment variables:
 
 ```shell
-USERLIST_PUSH_KEY=401e5c498be718c0a38b7da7f1ce5b409c56132a49246c435ee296e07bf2be39
+USERLIST_PUSH_KEY=VvB7pjDrv0V2hoaOCeZ5rIiUEPbEhSUN
+USERLIST_PUSH_ID=6vPkJl44cm82y4aLBIzaOhuEHJd0Bm7b
 ```
 
-Configuration via an initializer:
+Configuration via an initializer:˘
 
 ```ruby
 # config/initializer/userlist.rb
 Userlist.configure do |config|
-  config.push_key = '401e5c498be718c0a38b7da7f1ce5b409c56132a49246c435ee296e07bf2be39'
+  config.push_key = 'VvB7pjDrv0V2hoaOCeZ5rIiUEPbEhSUN'
+  config.push_id = '6vPkJl44cm82y4aLBIzaOhuEHJd0Bm7b'
 end
 ```
 
+In addition to the configuration options of the [userlist-ruby](http://github.com/userlistio/userlist-ruby#configuration) gem, the following options are available.
+
+| Name | Default value | Description |
+|------|---------------|-------------|
+| `user_model` | `nil` | The user model to use. Will be automatically set when `auto_discover` is `true` |
+| `company_model` | `nil` | The company model to use. Will be automatically set when `auto_discover` is `true` |
+| `auto_discover` | `true` | The gem will try to automatically identify your `User` and `Company` models. Possible values are `true` and `false`. |
+| `script_url` | `https://js.userlist.com/v1` | The script url to load the Userlist in-app messages script from. |
+
+
 ### Disabling in development and test environments
 
-As sending test and development data into data into Userlist isn't very desireable, you can disable transmissions by setting the push strategy to `:null`.
+As sending test and development data into data into Userlist isn't very desirable, you can disable transmissions by setting the push strategy to `:null`.
 
 ```ruby
 # config/initializer/userlist.rb
@@ -113,6 +125,20 @@ This simplifies the tracking call for the current request.
 
 ```ruby
 Userlist::Push.events.push(name: 'project_created', properties: { project_name: project.name })
+```
+
+### Enabling in-app messages
+
+In order to use in-app messages, please set both the `push_key` and `push_id` configuration variables. Afterwards, include the `userlist_script_tag` helper into your application's layout for signed in users.
+
+```erb
+<%= userlist_script_tag %>
+```
+
+By default, the helper will try to use the `current_user` helper to read the currently signed in user. You can change the default bebahvior by passing a different user. The passed object must respond to the `userlist_identifier` method.
+
+```erb
+<%= userlist_script_tag(user) %>
 ```
 
 ### Batch importing
