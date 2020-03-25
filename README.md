@@ -22,7 +22,7 @@ Or install it yourself as:
 
 The only required configuration is the Push API key. You can get your Push API key via the [Push API settings](https://app.userlist.com/settings/push) in your Userlist account.
 
-Configuration values can either be set via an initializer or as environment variables. The environment take precedence over configuration values from the initializer. Please refer to the [userlist-ruby](http://github.com/userlistio/userlist-ruby) gem for additional configuration options.
+Configuration values can either be set via an initializer or as environment variables. The environment take precedence over configuration values from the initializer. Please refer to the [userlist](http://github.com/userlistio/userlist-ruby) gem for additional configuration options.
 
 Configuration via environment variables:
 
@@ -41,7 +41,7 @@ Userlist.configure do |config|
 end
 ```
 
-In addition to the configuration options of the [userlist-ruby](http://github.com/userlistio/userlist-ruby#configuration) gem, the following options are available.
+In addition to the configuration options of the [userlist](http://github.com/userlistio/userlist-ruby#configuration) gem, the following options are available.
 
 | Name | Default value | Description |
 |------|---------------|-------------|
