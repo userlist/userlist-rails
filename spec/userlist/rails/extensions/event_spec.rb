@@ -7,10 +7,10 @@ RSpec.describe Userlist::Rails::Extensions::Event do
     type
   end
 
-  let(:model) { Struct.new(:userlist_payload) }
+  let(:model) { Struct.new(:userlist_identifier) }
 
   it 'should use the current user when none is given' do
-    user = model.new(identifier: 'user-identifier')
+    user = model.new(userlist_identifier: 'user-identifier')
 
     resource = Userlist::Rails.with_current_user(user) do
       resource_type.new(name: 'custom_event')

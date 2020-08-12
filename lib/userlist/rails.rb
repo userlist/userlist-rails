@@ -1,11 +1,6 @@
 require 'userlist/rails/config'
 require 'userlist/rails/railtie'
 
-require 'userlist/rails/extensions/resource'
-require 'userlist/rails/extensions/event'
-
-require 'userlist/rails/helpers'
-
 module Userlist
   module Rails
     def self.with_current_user(user)
@@ -29,6 +24,13 @@ module Userlist
       end
 
       nil
+    end
+
+    def self.setup_callbacks(model, scope)
+      return unless method = [:after_commit, :after_save].find { |m| model.respond_to?(m) }
+
+      model.public_send(method, -> { scope.create(self) }, on: [:create, :update])
+      model.public_send(method, -> { scope.delete(self) }, on: [:destroy])
     end
   end
 end

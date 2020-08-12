@@ -19,11 +19,11 @@ module Userlist
       end
 
       def user_model
-        super&.to_s&.constantize
+        (model = super) && model.is_a?(Class) ? model : model&.to_s&.constantize
       end
 
       def company_model
-        super&.to_s&.constantize
+        (model = super) && model.is_a?(Class) ? model : model&.to_s&.constantize
       end
 
       Userlist::Config.send(:prepend, self)

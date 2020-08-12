@@ -41,6 +41,12 @@ RSpec.describe Userlist::Rails::Config do
       subject.user_model = 'User'
       expect(subject.user_model).to eq(User)
     end
+
+    it 'should accept anonymous classes' do
+      model = Class.new
+      subject.user_model = model
+      expect(subject.user_model).to eq(model)
+    end
   end
 
   describe '#company_model' do
@@ -56,6 +62,12 @@ RSpec.describe Userlist::Rails::Config do
     it 'should accept values via the setter' do
       subject.company_model = 'Company'
       expect(subject.company_model).to eq(Company)
+    end
+
+    it 'should accept anonymous classes' do
+      model = Class.new
+      subject.company_model = model
+      expect(subject.company_model).to eq(model)
     end
   end
 end

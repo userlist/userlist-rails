@@ -3,10 +3,9 @@ require 'rails/railtie'
 require 'userlist'
 require 'userlist/config'
 require 'userlist/rails/logger'
-require 'userlist/rails/user'
-require 'userlist/rails/company'
 
-require 'userlist/rails/extensions/resource'
+require 'userlist/rails/extensions/user'
+require 'userlist/rails/extensions/company'
 require 'userlist/rails/extensions/event'
 
 require 'userlist/rails/helpers'
@@ -35,8 +34,9 @@ module Userlist
       end
 
       initializer 'userlist.extensions' do
-        Userlist::Push::Resource.prepend(Userlist::Rails::Extensions::Resource)
-        Userlist::Push::Event.prepend(Userlist::Rails::Extensions::Event)
+        Userlist::Push::User.extend(Userlist::Rails::Extensions::User)
+        Userlist::Push::Company.extend(Userlist::Rails::Extensions::Company)
+        Userlist::Push::Event.extend(Userlist::Rails::Extensions::Event)
       end
 
       initializer 'userlist.models' do
@@ -52,12 +52,12 @@ module Userlist
 
           if user_model = userlist.user_model
             Userlist.logger.info("Preparing user model #{user_model}")
-            user_model.send(:include, Userlist::Rails::User)
+            Userlist::Rails.setup_callbacks(user_model, Userlist::Push.users)
           end
 
           if company_model = userlist.company_model
             Userlist.logger.info("Preparing company model #{company_model}")
-            company_model.send(:include, Userlist::Rails::Company)
+            Userlist::Rails.setup_callbacks(company_model, Userlist::Push.companies)
           end
         end
       end
