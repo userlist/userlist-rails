@@ -2,7 +2,12 @@ require 'spec_helper'
 require 'userlist/config'
 
 RSpec.describe Userlist::Rails::Helpers, type: :helper do
-  let(:user) { double(:user, userlist_identifier: 'user-identifer') }
+  let(:config) { Userlist.config.merge(user_model: model) }
+
+  let(:model) { Struct::User = Struct.new(:userlist_identifier) }
+  let(:user) { model.new('user-identifer') }
+
+  after { Struct.send(:remove_const, :User) }
 
   shared_examples 'a valid script tag' do
     it 'should return a script tag' do
@@ -35,7 +40,7 @@ RSpec.describe Userlist::Rails::Helpers, type: :helper do
   end
 
   context 'when the configuration is valid' do
-    let(:config) { Userlist.config.merge(push_key: 'push-key', push_id: 'push-id') }
+    let(:config) { super().merge(push_key: 'push-key', push_id: 'push-id') }
 
     before do
       allow(Userlist).to receive(:config).and_return(config)
@@ -85,7 +90,7 @@ RSpec.describe Userlist::Rails::Helpers, type: :helper do
   end
 
   context 'when the configuration is invalid' do
-    let(:config) { Userlist.config.merge(push_key: nil, push_id: nil) }
+    let(:config) { super().merge(push_key: nil, push_id: nil) }
     let(:logger) { TestLogger.new }
 
     before do

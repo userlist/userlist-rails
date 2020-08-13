@@ -14,10 +14,8 @@ module Userlist
         options[:async] = true
 
         if user
-          resource = Userlist::Push::User.from_payload(user)
-
           options[:data] ||= {}
-          options[:data][:userlist] = Userlist::Token.generate(resource.identifier)
+          options[:data][:userlist] = Userlist::Token.generate(user, config)
         end
 
         script_tag = javascript_tag('window.userlist=window.userlist||function(){(userlist.q=userlist.q||[]).push(arguments)};')
