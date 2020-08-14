@@ -52,17 +52,26 @@ module Userlist
     def self.setup_callbacks(model, scope)
       return if model.instance_variable_get(:@userlist_callbacks_registered)
 
-      setup_callback(:create,  model, -> { Userlist::Push.public_send(scope).create(self) })
-      setup_callback(:update,  model, -> { Userlist::Push.public_send(scope).create(self) })
-      setup_callback(:destroy, model, -> { Userlist::Push.public_send(scope).delete(self) })
+      setup_callback(:create,  model, scope, :create)
+      setup_callback(:update,  model, scope, :create)
+      setup_callback(:destroy, model, scope, :delete)
 
       model.instance_variable_set(:@userlist_callbacks_registered, true)
     end
 
-    def self.setup_callback(type, model, callback)
-      return unless method = [:after_commit, :"after_#{type}"].find { |m| model.respond_to?(m) }
+    def self.setup_callback(type, model, scope, method)
+      return unless callback_method = [:after_commit, :"after_#{type}"].find { |m| model.respond_to?(m) }
 
-      model.public_send(method, callback, on: type)
+      callback = lambda do
+        begin
+          relation = Userlist::Push.public_send(scope)
+          relation.public_send(method, self)
+        rescue Userlist::Error => e
+          Userlist.logger.error "Failed to #{method} #{method.to_s.singularize}: #{e.message}"
+        end
+      end
+
+      model.public_send(callback_method, callback, on: type)
     end
   end
 end
