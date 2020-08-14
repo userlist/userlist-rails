@@ -27,10 +27,19 @@ module Userlist
     end
 
     def self.setup_callbacks(model, scope)
-      return unless method = [:after_commit, :after_save].find { |m| model.respond_to?(m) }
+      return if model.instance_variable_get(:@userlist_callbacks_registered)
 
-      model.public_send(method, -> { scope.create(self) }, on: [:create, :update])
-      model.public_send(method, -> { scope.delete(self) }, on: [:destroy])
+      setup_callback(:create,  model, -> { Userlist::Push.public_send(scope).create(self) })
+      setup_callback(:update,  model, -> { Userlist::Push.public_send(scope).create(self) })
+      setup_callback(:destroy, model, -> { Userlist::Push.public_send(scope).delete(self) })
+
+      model.instance_variable_set(:@userlist_callbacks_registered, true)
+    end
+
+    def self.setup_callback(type, model, callback)
+      return unless method = [:after_commit, :"after_#{type}"].find { |m| model.respond_to?(m) }
+
+      model.public_send(method, callback, on: type)
     end
   end
 end

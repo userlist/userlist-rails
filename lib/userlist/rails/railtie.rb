@@ -46,18 +46,18 @@ module Userlist
           if userlist.auto_discover
             Userlist.logger.info('Automatically discovering models')
 
-            userlist.user_model ||= Userlist::Rails.detect_model('User')
-            userlist.company_model ||= Userlist::Rails.detect_model('Account', 'Company')
+            userlist.user_model = Userlist::Rails.detect_model('User')
+            userlist.company_model = Userlist::Rails.detect_model('Account', 'Company')
           end
 
           if user_model = userlist.user_model
             Userlist.logger.info("Preparing user model #{user_model}")
-            Userlist::Rails.setup_callbacks(user_model, Userlist::Push.users)
+            Userlist::Rails.setup_callbacks(user_model, :users)
           end
 
           if company_model = userlist.company_model
             Userlist.logger.info("Preparing company model #{company_model}")
-            Userlist::Rails.setup_callbacks(company_model, Userlist::Push.companies)
+            Userlist::Rails.setup_callbacks(company_model, :companies)
           end
         end
       end
