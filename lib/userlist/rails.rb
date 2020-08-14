@@ -14,6 +14,17 @@ module Userlist
       Thread.current[:userlist_current_user]
     end
 
+    def self.with_current_company(company)
+      Thread.current[:userlist_current_company] = company
+      yield
+    ensure
+      Thread.current[:userlist_current_company] = nil
+    end
+
+    def self.current_company
+      Thread.current[:userlist_current_company]
+    end
+
     def self.detect_model(*names)
       names.each do |name|
         begin
