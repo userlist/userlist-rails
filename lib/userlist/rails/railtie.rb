@@ -6,6 +6,7 @@ require 'userlist/rails/logger'
 
 require 'userlist/rails/extensions/user'
 require 'userlist/rails/extensions/company'
+require 'userlist/rails/extensions/relationship'
 require 'userlist/rails/extensions/event'
 
 require 'userlist/rails/helpers'
@@ -36,6 +37,7 @@ module Userlist
       initializer 'userlist.extensions' do
         Userlist::Push::User.extend(Userlist::Rails::Extensions::User)
         Userlist::Push::Company.extend(Userlist::Rails::Extensions::Company)
+        Userlist::Push::Relationship.extend(Userlist::Rails::Extensions::Relationship)
         Userlist::Push::Event.extend(Userlist::Rails::Extensions::Event)
       end
 
@@ -48,6 +50,7 @@ module Userlist
 
             userlist.user_model = Userlist::Rails.detect_model('User')
             userlist.company_model = Userlist::Rails.detect_model('Account', 'Company')
+            userlist.relationship_model = Userlist::Rails.detect_relationship(userlist.user_model, userlist.company_model)
           end
 
           if user_model = userlist.user_model
@@ -58,6 +61,11 @@ module Userlist
           if company_model = userlist.company_model
             Userlist.logger.info("Preparing company model #{company_model}")
             Userlist::Rails.setup_callbacks(company_model, :companies)
+          end
+
+          if relationship_model = userlist.relationship_model
+            Userlist.logger.info("Preparing relationship model #{relationship_model}")
+            Userlist::Rails.setup_callbacks(relationship_model, :relationships)
           end
         end
       end

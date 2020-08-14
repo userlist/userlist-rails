@@ -6,6 +6,7 @@ module Userlist
       DEFAULT_CONFIGURATION = {
         user_model: nil,
         company_model: nil,
+        relationship_model: nil,
         auto_discover: true,
         script_url: 'https://js.userlist.com/v1'
       }.freeze

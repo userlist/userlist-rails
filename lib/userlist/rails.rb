@@ -37,6 +37,18 @@ module Userlist
       nil
     end
 
+    def self.detect_relationship(from, to)
+      return unless reflection = find_reflection(from, to)
+
+      reflection.through_reflection.klass if reflection.through_reflection?
+    end
+
+    def self.find_reflection(from, to)
+      return unless from && to
+
+      from.reflect_on_all_associations.find { |r| r.class_name == to.to_s }
+    end
+
     def self.setup_callbacks(model, scope)
       return if model.instance_variable_get(:@userlist_callbacks_registered)
 
