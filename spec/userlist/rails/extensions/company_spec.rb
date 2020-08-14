@@ -7,13 +7,9 @@ RSpec.describe Userlist::Rails::Extensions::Company do
     type
   end
 
-  let(:model) { Struct::Company = Struct.new(:id, :name, :created_at) }
-
-  after { Struct.send(:remove_const, :Company) }
-
   describe '.from_payload' do
-    let(:config) { Userlist.config.merge(company_model: model) }
-    let(:company) { model.new(1234, 'Foo, Inc.', Time.now) }
+    let(:config) { Userlist.config.merge(company_model: Company) }
+    let(:company) { Company.new(1234, 'Foo, Inc.', Time.now) }
     let(:resource) { resource_type.from_payload(company, config) }
 
     context 'for identifier' do
@@ -23,7 +19,7 @@ RSpec.describe Userlist::Rails::Extensions::Company do
       end
 
       it 'should use the model\'s name and id as fallback' do
-        expect(resource.identifier).to eq('struct-company-1234')
+        expect(resource.identifier).to eq('company-1234')
       end
     end
 

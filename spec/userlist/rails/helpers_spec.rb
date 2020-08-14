@@ -2,12 +2,9 @@ require 'spec_helper'
 require 'userlist/config'
 
 RSpec.describe Userlist::Rails::Helpers, type: :helper do
-  let(:config) { Userlist.config.merge(user_model: model) }
+  let(:config) { Userlist.config.merge(user_model: User) }
 
-  let(:model) { Struct::User = Struct.new(:userlist_identifier) }
-  let(:user) { model.new('user-identifer') }
-
-  after { Struct.send(:remove_const, :User) }
+  let(:user) { User.new('identifer') }
 
   shared_examples 'a valid script tag' do
     it 'should return a script tag' do
@@ -56,7 +53,7 @@ RSpec.describe Userlist::Rails::Helpers, type: :helper do
 
         it_behaves_like 'a valid script tag'
         it_behaves_like 'a script tag with a token' do
-          let(:token) { Userlist::Token.generate(user.userlist_identifier) }
+          let(:token) { Userlist::Token.generate(user) }
         end
       end
 
@@ -71,7 +68,7 @@ RSpec.describe Userlist::Rails::Helpers, type: :helper do
 
       it_behaves_like 'a valid script tag'
       it_behaves_like 'a script tag with a token' do
-        let(:token) { Userlist::Token.generate(user.userlist_identifier) }
+        let(:token) { Userlist::Token.generate(user) }
       end
 
       context 'when there is a current user method' do
@@ -83,7 +80,7 @@ RSpec.describe Userlist::Rails::Helpers, type: :helper do
 
         it_behaves_like 'a valid script tag'
         it_behaves_like 'a script tag with a token' do
-          let(:token) { Userlist::Token.generate(user.userlist_identifier) }
+          let(:token) { Userlist::Token.generate(user) }
         end
       end
     end
