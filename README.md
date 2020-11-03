@@ -1,4 +1,4 @@
-# Userlist for Ruby on Rails [![Build Status](https://travis-ci.com/userlistio/userlist-rails.svg?branch=master)](https://travis-ci.com/userlistio/userlist-rails)
+# Userlist for Ruby on Rails [![Build Status](https://travis-ci.com/userlist/userlist-rails.svg?branch=master)](https://travis-ci.com/userlist/userlist-rails)
 
 This gem helps with integrating [Userlist](http://userlist.com) into Ruby on Rails applications.
 
@@ -22,7 +22,7 @@ Or install it yourself as:
 
 The only required configuration is the Push API key. You can get your Push API key via the [Push API settings](https://app.userlist.com/settings/push) in your Userlist account.
 
-Configuration values can either be set via an initializer or as environment variables. The environment take precedence over configuration values from the initializer. Please refer to the [userlist](http://github.com/userlistio/userlist-ruby) gem for additional configuration options.
+Configuration values can either be set via an initializer or as environment variables. The environment take precedence over configuration values from the initializer. Please refer to the [userlist](http://github.com/userlist/userlist-ruby) gem for additional configuration options.
 
 Configuration via environment variables:
 
@@ -41,7 +41,7 @@ Userlist.configure do |config|
 end
 ```
 
-In addition to the configuration options of the [userlist](http://github.com/userlistio/userlist-ruby#configuration) gem, the following options are available.
+In addition to the configuration options of the [userlist](http://github.com/userlist/userlist-ruby#configuration) gem, the following options are available.
 
 | Name            | Default value                | Description                                                                                                          |
 | --------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------- |
@@ -157,7 +157,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at <https://github.com/userlistio/userlist-rails>. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at <https://github.com/userlist/userlist-rails>. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -165,4 +165,12 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Userlist::Rails project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/userlistio/userlist-rails/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Userlist::Rails project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/userlist/userlist-rails/blob/master/CODE_OF_CONDUCT.md).
+
+## What is Userlist?
+
+[![Userlist](https://userlist.com/images/external/userlist-logo-github.svg)](https://userlist.com/)
+
+[Userlist](https://userlist.com/) allows you to onboard and engage your SaaS users with targeted behavior-based campaigns using email or in-app messages.
+
+Userlist was started in 2017 as an alternative to bulky enterprise messaging tools. We believe that running SaaS products should be more enjoyable. Learn more [about us](https://userlist.com/about-us/).
