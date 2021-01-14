@@ -1,5 +1,9 @@
 require 'userlist/config'
 
+require 'userlist/rails/transforms/user'
+require 'userlist/rails/transforms/company'
+require 'userlist/rails/transforms/relationship'
+
 module Userlist
   module Rails
     module Config
@@ -8,7 +12,10 @@ module Userlist
         company_model: nil,
         relationship_model: nil,
         auto_discover: true,
-        script_url: 'https://js.userlist.com/v1'
+        script_url: 'https://js.userlist.com/v1',
+        user_transform: Userlist::Rails::Transforms::User,
+        company_transform: Userlist::Rails::Transforms::Company,
+        relationship_transform: Userlist::Rails::Transforms::Relationship
       }.freeze
 
       def default_config
