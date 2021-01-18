@@ -26,6 +26,14 @@ module Userlist
         model.hash
       end
 
+      def create?
+        model.try(:userlist_push?)
+      end
+
+      def delete?
+        model.try(:userlist_delete?)
+      end
+
     private
 
       attr_reader :model, :config

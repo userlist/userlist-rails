@@ -35,10 +35,10 @@ module Userlist
       end
 
       initializer 'userlist.extensions' do
-        Userlist::Push::User.extend(Userlist::Rails::Extensions::User)
-        Userlist::Push::Company.extend(Userlist::Rails::Extensions::Company)
-        Userlist::Push::Relationship.extend(Userlist::Rails::Extensions::Relationship)
-        Userlist::Push::Event.extend(Userlist::Rails::Extensions::Event)
+        Userlist::Push::User.include(Userlist::Rails::Extensions::User)
+        Userlist::Push::Company.include(Userlist::Rails::Extensions::Company)
+        Userlist::Push::Relationship.include(Userlist::Rails::Extensions::Relationship)
+        Userlist::Push::Event.include(Userlist::Rails::Extensions::Event)
       end
 
       initializer 'userlist.models' do
