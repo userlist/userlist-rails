@@ -26,7 +26,7 @@ module Userlist
         model.hash
       end
 
-      def create?
+      def push?
         model.try(:userlist_push?)
       end
 

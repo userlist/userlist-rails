@@ -19,12 +19,12 @@ module Userlist
           base.extend(ClassMethods)
         end
 
-        def create?
-          !payload.respond_to?(:create?) || payload.create?
+        def push?
+          super && (!payload.respond_to?(:push?) || payload.push?)
         end
 
         def delete?
-          !payload.respond_to?(:delete?) || payload.delete?
+          super && (!payload.respond_to?(:delete?) || payload.delete?)
         end
       end
     end
