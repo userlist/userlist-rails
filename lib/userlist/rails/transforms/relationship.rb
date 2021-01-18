@@ -25,7 +25,7 @@ module Userlist
         def company
           company_method = Userlist::Rails.find_reflection(config.relationship_model, config.company_model)&.name
 
-          model.try(:userlist_user) || (company_method && model.try(company_method))
+          model.try(:userlist_company) || (company_method && model.try(company_method))
         end
       end
     end
