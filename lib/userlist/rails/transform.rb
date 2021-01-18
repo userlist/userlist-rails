@@ -27,11 +27,11 @@ module Userlist
       end
 
       def push?
-        model.try(:userlist_push?)
+        (!model.respond_to?(:push?) || model.push?)
       end
 
       def delete?
-        model.try(:userlist_delete?)
+        (!model.respond_to?(:delete?) || model.delete?)
       end
 
     private
