@@ -15,7 +15,7 @@ module Userlist
   module Rails
     class Railtie < ::Rails::Railtie
       rake_tasks do
-        load 'tasks/userlist.rake'
+        load 'userlist/rails/tasks/userlist.rake'
       end
 
       initializer 'userlist.config' do
