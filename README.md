@@ -92,13 +92,19 @@ end
 To manually send user data into Userlist, use the `Userlist::Push.users.push` method.
 
 ```ruby
+Userlist::Push.users.push(user)
+```
+
+It's also possible to customize the payload sent to Userlist by passing a hash instead of the user object.
+
+```ruby
 Userlist::Push.users.push(identifier: user.id, email: user.email, properties: { first_name: user.first_name, last_name: user.last_name })
 ```
 
 It's also possible to delete a user from Userlist, using the `Userlist::Push.users.delete` method.
 
 ```ruby
-Userlist::Push.users.delete(user.id)
+Userlist::Push.users.delete(user)
 ```
 
 ### Tracking Events
