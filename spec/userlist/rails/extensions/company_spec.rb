@@ -9,7 +9,7 @@ RSpec.describe Userlist::Rails::Extensions::Company do
 
   describe '.from_payload' do
     let(:config) { Userlist.config.merge(company_model: Company) }
-    let(:company) { Company.new(1234, 'Foo, Inc.', Time.now) }
+    let(:company) { Company.create(name: 'Foo, Inc.') }
     let(:resource) { resource_type.from_payload(company, config) }
 
     context 'for identifier' do
@@ -19,7 +19,7 @@ RSpec.describe Userlist::Rails::Extensions::Company do
       end
 
       it 'should use the model\'s name and id as fallback' do
-        expect(resource.identifier).to eq('company-1234')
+        expect(resource.identifier).to eq('company-1')
       end
     end
 

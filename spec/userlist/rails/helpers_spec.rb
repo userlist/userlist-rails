@@ -4,7 +4,7 @@ require 'userlist/config'
 RSpec.describe Userlist::Rails::Helpers, type: :helper do
   let(:config) { Userlist.config.merge(user_model: User) }
 
-  let(:user) { User.new('identifer') }
+  let(:user) { User.create }
 
   shared_examples 'a valid script tag' do
     it 'should return a script tag' do
