@@ -73,5 +73,12 @@ module Userlist
 
       model.public_send(callback_method, callback, on: type)
     end
+
+    def self.setup_extensions
+      Userlist::Push::User.include(Userlist::Rails::Extensions::User)
+      Userlist::Push::Company.include(Userlist::Rails::Extensions::Company)
+      Userlist::Push::Relationship.include(Userlist::Rails::Extensions::Relationship)
+      Userlist::Push::Event.include(Userlist::Rails::Extensions::Event)
+    end
   end
 end

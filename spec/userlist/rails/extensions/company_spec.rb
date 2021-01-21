@@ -1,16 +1,10 @@
 require 'spec_helper'
 
 RSpec.describe Userlist::Rails::Extensions::Company do
-  let(:resource_type) do
-    type = Class.new(Userlist::Push::Company)
-    type.extend(described_class)
-    type
-  end
-
   describe '.from_payload' do
     let(:config) { Userlist.config.merge(company_model: Company) }
     let(:company) { Company.create(name: 'Foo, Inc.') }
-    let(:resource) { resource_type.from_payload(company, config) }
+    let(:resource) { Userlist::Push::Company.from_payload(company, config) }
 
     context 'for identifier' do
       it 'should use the model\'s userlist_identifier' do
