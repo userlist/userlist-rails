@@ -7,9 +7,7 @@ module Userlist
             relationship_model = config.relationship_model
             relationship_transform = config.relationship_transform
 
-            if relationship_model && payload.is_a?(relationship_model)
-              payload = relationship_transform.new(payload, config)
-            end
+            payload = relationship_transform.new(payload, config) if relationship_model && payload.is_a?(relationship_model)
 
             super
           end

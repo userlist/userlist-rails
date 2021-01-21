@@ -1,10 +1,12 @@
 AllCops:
   TargetRubyVersion: 2.4
+  NewCops: enable
+  SuggestExtensions: false
   Exclude:
     - 'bin/*'
     - 'Guardfile'
 
-Metrics/LineLength:
+Layout/LineLength:
   Enabled: false
 
 Metrics/ModuleLength:

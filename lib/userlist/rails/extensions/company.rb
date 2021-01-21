@@ -7,9 +7,7 @@ module Userlist
             company_model = config.company_model
             company_transform = config.company_transform
 
-            if company_model && payload.is_a?(company_model)
-              payload = company_transform.new(payload, config)
-            end
+            payload = company_transform.new(payload, config) if company_model && payload.is_a?(company_model)
 
             super
           end

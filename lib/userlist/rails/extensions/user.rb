@@ -7,9 +7,7 @@ module Userlist
             user_model = config.user_model
             user_transform = config.user_transform
 
-            if user_model && payload.is_a?(user_model)
-              payload = user_transform.new(payload, config)
-            end
+            payload = user_transform.new(payload, config) if user_model && payload.is_a?(user_model)
 
             super
           end

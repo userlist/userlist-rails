@@ -1,7 +1,7 @@
 module Userlist
   module Rails
     module Helpers
-      def userlist_script_tag(*args)
+      def userlist_script_tag(*args) # rubocop:disable Metrics/CyclomaticComplexity
         config = Userlist.config
         logger = Userlist.logger
 
