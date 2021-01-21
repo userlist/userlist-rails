@@ -22,6 +22,13 @@ module Userlist
         config.userlist = Userlist.config
       end
 
+      initializer 'userlist.strategy' do
+        config.after_initialize do
+          strategy = config.userlist.push_strategy
+          Userlist::Push::Strategies.require_strategy(strategy)
+        end
+      end
+
       initializer 'userlist.logger' do
         config.after_initialize do
           Userlist.logger = Userlist::Rails::Logger.new(::Rails.logger, config.userlist)
