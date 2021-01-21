@@ -52,8 +52,8 @@ module Userlist
     def self.setup_callbacks(model, scope)
       return if model.instance_variable_get(:@userlist_callbacks_registered)
 
-      setup_callback(:create,  model, scope, :create)
-      setup_callback(:update,  model, scope, :create)
+      setup_callback(:create,  model, scope, :push)
+      setup_callback(:update,  model, scope, :push)
       setup_callback(:destroy, model, scope, :delete)
 
       model.instance_variable_set(:@userlist_callbacks_registered, true)

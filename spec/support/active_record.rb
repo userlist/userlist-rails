@@ -2,10 +2,9 @@ ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: ':memory:'
 
 RSpec.configure do |config|
   config.around(:each) do |example|
-    ActiveRecord::Base.transaction do
-      example.run
-
-      raise ActiveRecord::Rollback
-    end
+    connection = ActiveRecord::Base.connection
+    connection.begin_transaction(joinable: false)
+    example.run
+    connection.rollback_transaction
   end
 end
