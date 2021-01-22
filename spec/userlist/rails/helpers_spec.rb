@@ -2,7 +2,9 @@ require 'spec_helper'
 require 'userlist/config'
 
 RSpec.describe Userlist::Rails::Helpers, type: :helper do
-  let(:user) { double(:user, userlist_identifier: 'user-identifer') }
+  let(:config) { Userlist.config.merge(user_model: User) }
+
+  let(:user) { User.create }
 
   shared_examples 'a valid script tag' do
     it 'should return a script tag' do
@@ -35,7 +37,7 @@ RSpec.describe Userlist::Rails::Helpers, type: :helper do
   end
 
   context 'when the configuration is valid' do
-    let(:config) { Userlist.config.merge(push_key: 'push-key', push_id: 'push-id') }
+    let(:config) { super().merge(push_key: 'push-key', push_id: 'push-id') }
 
     before do
       allow(Userlist).to receive(:config).and_return(config)
@@ -51,7 +53,7 @@ RSpec.describe Userlist::Rails::Helpers, type: :helper do
 
         it_behaves_like 'a valid script tag'
         it_behaves_like 'a script tag with a token' do
-          let(:token) { Userlist::Token.generate(user.userlist_identifier) }
+          let(:token) { Userlist::Token.generate(user) }
         end
       end
 
@@ -66,7 +68,7 @@ RSpec.describe Userlist::Rails::Helpers, type: :helper do
 
       it_behaves_like 'a valid script tag'
       it_behaves_like 'a script tag with a token' do
-        let(:token) { Userlist::Token.generate(user.userlist_identifier) }
+        let(:token) { Userlist::Token.generate(user) }
       end
 
       context 'when there is a current user method' do
@@ -78,14 +80,14 @@ RSpec.describe Userlist::Rails::Helpers, type: :helper do
 
         it_behaves_like 'a valid script tag'
         it_behaves_like 'a script tag with a token' do
-          let(:token) { Userlist::Token.generate(user.userlist_identifier) }
+          let(:token) { Userlist::Token.generate(user) }
         end
       end
     end
   end
 
   context 'when the configuration is invalid' do
-    let(:config) { Userlist.config.merge(push_key: nil, push_id: nil) }
+    let(:config) { super().merge(push_key: nil, push_id: nil) }
     let(:logger) { TestLogger.new }
 
     before do

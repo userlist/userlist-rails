@@ -1,7 +1,7 @@
 module Userlist
   module Rails
     module Helpers
-      def userlist_script_tag(*args)
+      def userlist_script_tag(*args) # rubocop:disable Metrics/CyclomaticComplexity
         config = Userlist.config
         logger = Userlist.logger
 
@@ -14,10 +14,8 @@ module Userlist
         options[:async] = true
 
         if user
-          identifier = user.userlist_identifier
-
           options[:data] ||= {}
-          options[:data][:userlist] = Userlist::Token.generate(identifier)
+          options[:data][:userlist] = Userlist::Token.generate(user, config)
         end
 
         script_tag = javascript_tag('window.userlist=window.userlist||function(){(userlist.q=userlist.q||[]).push(arguments)};')

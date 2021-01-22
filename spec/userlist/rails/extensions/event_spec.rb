@@ -1,21 +1,24 @@
 require 'spec_helper'
 
 RSpec.describe Userlist::Rails::Extensions::Event do
-  let(:resource_type) do
-    type = Class.new(Userlist::Push::Event)
-    type.include(described_class)
-    type
-  end
+  let(:config) { Userlist.config.merge(user_model: User, company_model: Company) }
 
-  let(:model) { Struct.new(:userlist_payload) }
+  let(:user) { User.create }
+  let(:company) { Company.create }
 
   it 'should use the current user when none is given' do
-    user = model.new(identifier: 'user-identifier')
-
     resource = Userlist::Rails.with_current_user(user) do
-      resource_type.new(name: 'custom_event')
+      Userlist::Push::Event.new({ name: 'custom_event' }, config)
     end
 
-    expect(resource.attributes).to match(hash_including(user: user))
+    expect(resource.user.identifier).to eq('user-1')
+  end
+
+  it 'should use the current company when none is given' do
+    resource = Userlist::Rails.with_current_company(company) do
+      Userlist::Push::Event.new({ name: 'custom_event' }, config)
+    end
+
+    expect(resource.company.identifier).to eq('company-1')
   end
 end
