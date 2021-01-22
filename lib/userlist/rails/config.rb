@@ -34,6 +34,10 @@ module Userlist
         (model = super) && model.is_a?(Class) ? model : model&.to_s&.constantize
       end
 
+      def relationship_model
+        (model = super) && model.is_a?(Class) ? model : model&.to_s&.constantize
+      end
+
       Userlist::Config.send(:prepend, self)
     end
   end
