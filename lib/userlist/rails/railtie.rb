@@ -53,7 +53,7 @@ module Userlist
             Userlist.logger.info('Automatically discovering models')
 
             userlist.user_model = Userlist::Rails.detect_model('User')
-            userlist.company_model = Userlist::Rails.detect_model('Account', 'Company')
+            userlist.company_model = Userlist::Rails.detect_model('Account', 'Company', 'Team', 'Organization')
             userlist.relationship_model = Userlist::Rails.detect_relationship(userlist.user_model, userlist.company_model)
           end
 
