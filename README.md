@@ -47,6 +47,7 @@ In addition to the configuration options of the [userlist](http://github.com/use
 | --------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | `user_model`    | `nil`                        | The user model to use. Will be automatically set when `auto_discover` is `true`                                      |
 | `company_model` | `nil`                        | The company model to use. Will be automatically set when `auto_discover` is `true`                                   |
+| `relationship_model` | `nil`                        | The relationship model to use. Will be automatically infered from the user and company models                                   |
 | `auto_discover` | `true`                       | The gem will try to automatically identify your `User` and `Company` models. Possible values are `true` and `false`. |
 | `script_url`    | `https://js.userlist.com/v1` | The script url to load the Userlist in-app messages script from.                                                     |
 
@@ -101,36 +102,167 @@ It's also possible to customize the payload sent to Userlist by passing a hash i
 Userlist::Push.users.push(identifier: user.id, email: user.email, properties: { first_name: user.first_name, last_name: user.last_name })
 ```
 
+#### Ignoring users
+
+For cases where you don't want to send specific user to Userlist you can add a `userlist_push?` method. Whenever this method doesn't return a falsey value, this user will not be sent to Userlist. This also applies to any events or relationships this user is involved in.
+
+```ruby
+class User < ApplicationRecord
+  def userlist_push?
+    !deleted? && !guest?
+  end
+end
+```
+
+#### Deleting users
+
 It's also possible to delete a user from Userlist, using the `Userlist::Push.users.delete` method.
 
 ```ruby
 Userlist::Push.users.delete(user)
 ```
 
-### Tracking Events
 
-To track custom events use the `Userlist::Push.events.push` method.
+### Tracking Companies
 
-```ruby
-Userlist::Push.events.push(name: 'project_created', user: current_user, properties: { project_name: project.name })
-```
+#### Sending company data automatically
 
-It is possible to make the `user` property optional by setting it for the entire request using an `around_action` callback in your `ApplicationController`.
+By default, this gem will automatically detect your company model (like `Account`, `Company`, `Team`, `Organization`) and create, update, and delete the corresponding company inside of Userlist. To customize the `identifier`, `name`, or `properties` transmitted for a company, you can overwrite the according methods in your company model.
 
 ```ruby
-class ApplicationController < ActionController::Base
-  around_action :setup_userlist_current_user
+class Account < ApplicationRecord
+  def userlist_properties
+    { projects: projects.count }
+  end
 
-  def setup_userlist_current_user(&block)
-    Userlist::Rails.with_current_user(current_user, &block)
+  def userlist_identifier
+    "account-#{id}"
+  end
+
+  def userlist_name
+    name
   end
 end
 ```
 
-This simplifies the tracking call for the current request.
+
+#### Sending company data manually
+
+To manually send company data into Userlist, use the `Userlist::Push.companies.push` method.
 
 ```ruby
-Userlist::Push.events.push(name: 'project_created', properties: { project_name: project.name })
+Userlist::Push.companies.push(user)
+```
+
+It's also possible to customize the payload sent to Userlist by passing a hash instead of the company object.
+
+```ruby
+Userlist::Push.companies.push(identifier: company.id, name: company.name, properties: { projects: company.projects.count })
+```
+
+
+#### Ignoring companies
+
+For cases where you don't want to send specific company to Userlist you can add a `userlist_push?` method. Whenever this method doesn't return a falsey value, this company will not be sent to Userlist. This also applies to any events or relationships this company is involved in.
+
+```ruby
+class User < ApplicationRecord
+  def userlist_push?
+    !deleted? && !guest?
+  end
+end
+```
+
+#### Deleting users
+
+It's also possible to delete a company from Userlist, using the `Userlist::Push.companies.delete` method.
+
+```ruby
+Userlist::Push.companies.delete(company)
+```
+
+### Tracking relationships
+
+Userlist supports n:m relationships between users and companies. This gem will try to figure out the model your application uses to describe these relationships by looking at the associations defined in your user and company models. When sending a user to Userlist, this gem will try to automatically include the user's relationships as well. This includes information about the relationships and companies this user is associated with, but not information about other users associated with any of the companies. This works the other way around as well. When sending a company, it'll try to automatically include the company's relationships, but not any information about the associated users' other companies.
+
+```ruby
+user = User.create(email: 'foo@example.com')
+user.companies.create(name: 'Example, Inc.')
+
+Userlist::Push.users.push(user)
+
+# Payload sent to Userlist
+{
+  identifier: 'user-1',
+  email: 'foo@example.com',
+  relationships: [
+    {
+      user: 'user-identifier',
+      company: {
+        identifier: 'company-identifier',
+        name: 'Example, Inc.',
+      }
+    }
+  ]
+}
+```
+
+Similar to users and events, these relationships may define a `userlist_properties` method to provide addition properties that describe the relationship.
+
+```ruby
+class Membership < ApplicationRecord
+  belongs_to :user
+  belongs_to :account
+
+  def userlist_properties
+    { role: role }
+  end
+end
+```
+
+
+#### Customizing relationship lookup
+
+It's possible to customize the way this gem looks up relationships for users and companies by specifying a `userlist_relationships` method on the user and/or company model.  
+
+```ruby
+class User < ApplicationRecord
+  def userlist_relationships
+    memberships.where(role: 'owner')
+  end
+end
+```
+
+
+#### Ignoring relationships
+
+This gem automatically ignore relationship if either the user or the company is ignored. However, in some cases it might be desirable to ignore relationships even when they connect to valid objects. A typical example for this are pending invitations. To support this use case, you can provide a `userlist_push?` method. Whenever this method doesn't return a falsey value, this relationship will not be sent to Userlist.
+
+```ruby
+class Membership < ApplicationRecord
+  belongs_to :user
+  belongs_to :account
+
+  def userlist_push?
+    pending?
+  end
+end
+```
+
+#### Deleting relationships
+
+It's also possible to delete a relationship from Userlist, using the `Userlist::Push.relationship.delete` method.
+
+```ruby
+Userlist::Push.relationship.delete(membership)
+```
+
+### Tracking Events
+
+To track custom events use the `Userlist::Push.events.push` method. Events can be related to a user, a company, or both.
+
+```ruby
+Userlist::Push.events.push(name: 'project_created', user: current_user, company: current_account, properties: { project_name: project.name })
 ```
 
 ### Enabling in-app messages

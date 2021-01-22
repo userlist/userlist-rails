@@ -53,17 +53,19 @@ module Userlist
             Userlist.logger.info('Automatically discovering models')
 
             userlist.user_model = Userlist::Rails.detect_model('User')
-            userlist.company_model = Userlist::Rails.detect_model('Account', 'Company')
+            userlist.company_model = Userlist::Rails.detect_model('Account', 'Company', 'Team', 'Organization')
             userlist.relationship_model = Userlist::Rails.detect_relationship(userlist.user_model, userlist.company_model)
           end
 
           if user_model = userlist.user_model
             Userlist.logger.info("Preparing user model #{user_model}")
+            Userlist::Rails.check_deprecations(user_model)
             Userlist::Rails.setup_callbacks(user_model, :users)
           end
 
           if company_model = userlist.company_model
             Userlist.logger.info("Preparing company model #{company_model}")
+            Userlist::Rails.check_deprecations(company_model)
             Userlist::Rails.setup_callbacks(company_model, :companies)
           end
 
