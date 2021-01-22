@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'activesupport', '>= 5.0'
   spec.add_dependency 'railties', '>= 5.0'
-  spec.add_dependency 'userlist', '~> 0.4'
+  spec.add_dependency 'userlist', '~> 0.5'
 
   spec.add_development_dependency 'actionpack', '>= 5.0'
   spec.add_development_dependency 'activerecord', '>= 5.0'
