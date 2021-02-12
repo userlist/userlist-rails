@@ -36,7 +36,9 @@ module Userlist
     def self.detect_model(*names)
       names.each do |name|
         begin
-          return name.constantize
+          model = name.constantize
+
+          return model if model.is_a?(Class)
         rescue NameError
           false
         end
