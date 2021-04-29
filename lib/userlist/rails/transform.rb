@@ -34,12 +34,8 @@ module Userlist
         (!model.respond_to?(:userlist_delete?) || model.userlist_delete?)
       end
 
-    private
-
-      attr_reader :model, :config
-
-      def auto_detect_relationships(from, to)
-        association = Userlist::Rails.find_association_between(from, to)
+      def default_relationships
+        association = Userlist::Rails.find_association_between(relationship_from, relationship_to)
 
         records = Array.wrap(model.try(association&.name))
 
@@ -50,7 +46,19 @@ module Userlist
         end
       end
 
+    private
+
+      attr_reader :model, :config
+
       def build_relationship(_record)
+        raise NotImplementedError
+      end
+
+      def relationship_to
+        raise NotImplementedError
+      end
+
+      def relationship_from
         raise NotImplementedError
       end
     end

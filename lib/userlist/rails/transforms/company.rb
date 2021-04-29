@@ -22,10 +22,6 @@ module Userlist
           {}
         end
 
-        def default_relationships
-          auto_detect_relationships(config.company_model, config.user_model)
-        end
-
         def default_name
           model.try(:name)
         end
@@ -38,6 +34,14 @@ module Userlist
 
         def build_relationship(record)
           { user: record }
+        end
+
+        def relationship_from
+          config.company_model
+        end
+
+        def relationship_to
+          config.user_model
         end
       end
     end
