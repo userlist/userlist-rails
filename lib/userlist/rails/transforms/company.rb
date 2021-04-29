@@ -23,9 +23,7 @@ module Userlist
         end
 
         def relationships
-          relationships_method = Userlist::Rails.find_reflection(config.company_model, config.relationship_model)&.name
-
-          model.try(:userlist_relationships) || (relationships_method && model.try(relationships_method))
+          model.try(:userlist_relationships) || auto_detect_relationships(config.company_model, config.user_model)
         end
 
         def name
@@ -34,6 +32,12 @@ module Userlist
 
         def signed_up_at
           model.try(:created_at)
+        end
+
+      private
+
+        def build_relationship(record)
+          { user: record }
         end
       end
     end
