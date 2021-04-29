@@ -151,7 +151,7 @@ end
 To manually send company data into Userlist, use the `Userlist::Push.companies.push` method.
 
 ```ruby
-Userlist::Push.companies.push(user)
+Userlist::Push.companies.push(company)
 ```
 
 It's also possible to customize the payload sent to Userlist by passing a hash instead of the company object.
@@ -166,14 +166,14 @@ Userlist::Push.companies.push(identifier: company.id, name: company.name, proper
 For cases where you don't want to send specific company to Userlist you can add a `userlist_push?` method. Whenever this method doesn't return a falsey value, this company will not be sent to Userlist. This also applies to any events or relationships this company is involved in.
 
 ```ruby
-class User < ApplicationRecord
+class Account < ApplicationRecord
   def userlist_push?
-    !deleted? && !guest?
+    !deleted? && active_subscription?
   end
 end
 ```
 
-#### Deleting users
+#### Deleting companies
 
 It's also possible to delete a company from Userlist, using the `Userlist::Push.companies.delete` method.
 
