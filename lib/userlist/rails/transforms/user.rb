@@ -14,23 +14,23 @@ module Userlist
           ]
         end
 
-        def identifier
-          model.try(:userlist_identifier) || "#{model.class.name}-#{model.id}".parameterize
+        def default_identifier
+          "#{model.class.name}-#{model.id}".parameterize
         end
 
-        def properties
-          model.try(:userlist_properties) || {}
+        def default_properties
+          {}
         end
 
-        def relationships
-          model.try(:userlist_relationships) || auto_detect_relationships(config.user_model, config.company_model)
+        def default_relationships
+          auto_detect_relationships(config.user_model, config.company_model)
         end
 
-        def email
-          model.try(:userlist_email) || model.try(:email)
+        def default_email
+          model.try(:email)
         end
 
-        def signed_up_at
+        def default_signed_up_at
           model.try(:created_at)
         end
 

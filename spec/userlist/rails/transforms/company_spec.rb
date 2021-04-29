@@ -6,46 +6,31 @@ RSpec.describe Userlist::Rails::Transforms::Company do
 
   subject { described_class.new(company, config) }
 
-  describe '#identifier' do
+  describe '#default_identifier' do
     it 'should generate a default identifier' do
-      expect(subject.identifier).to eq("company-#{company.id}")
-    end
-
-    it 'should use the userlist_identifier method' do
-      company.define_singleton_method(:userlist_identifier) { 'test-identifier' }
-      expect(subject.identifier).to eq('test-identifier')
+      expect(subject.default_identifier).to eq("company-#{company.id}")
     end
   end
 
-  describe '#properties' do
+  describe '#default_properties' do
     it 'should generate a default properties hash' do
-      expect(subject.properties).to eq({})
-    end
-
-    it 'should use the userlist_properties method' do
-      company.define_singleton_method(:userlist_properties) { { testing: true } }
-      expect(subject.properties).to eq({ testing: true })
+      expect(subject.default_properties).to eq({})
     end
   end
 
-  describe '#name' do
+  describe '#default_name' do
     it 'should use the models name column' do
-      expect(subject.name).to eq(company.name)
-    end
-
-    it 'should use the userlist_name method' do
-      company.define_singleton_method(:userlist_name) { 'Test, Inc.' }
-      expect(subject.name).to eq('Test, Inc.')
+      expect(subject.default_name).to eq(company.name)
     end
   end
 
-  describe '#signed_up_at' do
+  describe '#default_signed_up_at' do
     it 'should use the created_at attribute as signed_up_at method' do
-      expect(subject.signed_up_at).to eq(company.created_at)
+      expect(subject.default_signed_up_at).to eq(company.created_at)
     end
   end
 
-  describe '#relationships' do
+  describe '#default_relationships' do
     let(:config) { Userlist.config.merge(user_model: scope::User, company_model: scope::Company) }
     let(:company) { scope::Company.create(name: 'Example, Inc.') }
     let(:user) { scope::User.create(email: 'foo@example.com') }
@@ -59,7 +44,7 @@ RSpec.describe Userlist::Rails::Transforms::Company do
       end
 
       it 'should return the relationships' do
-        expect(subject.relationships).to eq(company.memberships)
+        expect(subject.default_relationships).to eq(company.memberships)
       end
     end
 
@@ -68,12 +53,10 @@ RSpec.describe Userlist::Rails::Transforms::Company do
 
       before do
         company.users << user
-
-        puts company.users.inspect
       end
 
       it 'should return the relationships' do
-        expect(subject.relationships).to eq(company.users.map { |user| { user: user } })
+        expect(subject.default_relationships).to eq(company.users.map { |user| { user: user } })
       end
     end
 
@@ -85,7 +68,7 @@ RSpec.describe Userlist::Rails::Transforms::Company do
       end
 
       it 'should return the relationships' do
-        expect(subject.relationships).to eq(company.users.map { |user| { user: user } })
+        expect(subject.default_relationships).to eq(company.users.map { |user| { user: user } })
       end
     end
 
@@ -97,7 +80,7 @@ RSpec.describe Userlist::Rails::Transforms::Company do
       end
 
       it 'should return the relationships' do
-        expect(subject.relationships).to eq([{ user: company.user }])
+        expect(subject.default_relationships).to eq([{ user: company.user }])
       end
     end
 
@@ -109,7 +92,7 @@ RSpec.describe Userlist::Rails::Transforms::Company do
       end
 
       it 'should return the relationships' do
-        expect(subject.relationships).to eq([{ user: company.user }])
+        expect(subject.default_relationships).to eq([{ user: company.user }])
       end
     end
   end

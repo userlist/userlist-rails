@@ -12,20 +12,20 @@ module Userlist
           ]
         end
 
-        def properties
-          model.try(:userlist_properties) || {}
+        def default_properties
+          {}
         end
 
-        def user
+        def default_user
           user_method = Userlist::Rails.find_reflection(config.relationship_model, config.user_model)&.name
 
-          model.try(:userlist_user) || (user_method && model.try(user_method))
+          user_method && model.try(user_method)
         end
 
-        def company
+        def default_company
           company_method = Userlist::Rails.find_reflection(config.relationship_model, config.company_model)&.name
 
-          model.try(:userlist_company) || (company_method && model.try(company_method))
+          company_method && model.try(company_method)
         end
       end
     end
