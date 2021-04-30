@@ -31,15 +31,25 @@ RSpec.describe Userlist::Rails::Transforms::User do
   end
 
   describe '#default_relationships' do
-    let(:config) { Userlist.config.merge(user_model: scope::User, company_model: scope::Company) }
-    let(:user) { scope::User.create(email: 'foo@example.com') }
-    let(:company) { scope::Company.create(name: 'Example, Inc.') }
+    let(:config) { Userlist.config.merge(user_model: user_model, company_model: company_model) }
+    let(:user) { user_model.create(email: 'foo@example.com') }
+    let(:company) { company_model.create(name: 'Example, Inc.') }
+
+    context 'when there are no relationships' do
+      let(:user_model) { User }
+      let(:company_model) { Company }
+
+      it 'should return nothing' do
+        expect(subject.default_relationships).to_not be
+      end
+    end
 
     context 'when it is a has many through relationship' do
-      let(:scope) { HasManyThrough }
+      let(:user_model) { HasManyThrough::User }
+      let(:company_model) { HasManyThrough::Company }
 
       before do
-        config.relationship_model = scope::Membership
+        config.relationship_model = HasManyThrough::Membership
         user.memberships.create!(company: company)
       end
 
@@ -49,7 +59,8 @@ RSpec.describe Userlist::Rails::Transforms::User do
     end
 
     context 'when it is a has and belongs to many relationship' do
-      let(:scope) { HasAndBelongsToMany }
+      let(:user_model) { HasAndBelongsToMany::User }
+      let(:company_model) { HasAndBelongsToMany::Company }
 
       before do
         user.companies << company
@@ -61,7 +72,8 @@ RSpec.describe Userlist::Rails::Transforms::User do
     end
 
     context 'when it is a has many relationship' do
-      let(:scope) { HasManyCompanies }
+      let(:user_model) { HasManyCompanies::User }
+      let(:company_model) { HasManyCompanies::Company }
 
       before do
         user.companies << company
@@ -73,7 +85,8 @@ RSpec.describe Userlist::Rails::Transforms::User do
     end
 
     context 'when it is a has one relationship' do
-      let(:scope) { HasOneCompany }
+      let(:user_model) { HasManyUsers::User }
+      let(:company_model) { HasManyUsers::Company }
 
       before do
         user.company = company
@@ -85,7 +98,8 @@ RSpec.describe Userlist::Rails::Transforms::User do
     end
 
     context 'when it is a belongs to relationship' do
-      let(:scope) { HasManyUsers }
+      let(:user_model) { HasManyUsers::User }
+      let(:company_model) { HasManyUsers::Company }
 
       before do
         user.company = company

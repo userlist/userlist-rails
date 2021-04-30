@@ -60,7 +60,7 @@ module Userlist
     end
 
     def self.find_association_between(from, to)
-      association = Userlist::Rails.find_reflection(from, to)
+      return unless association = Userlist::Rails.find_reflection(from, to)
 
       association.through_reflection || association
     end

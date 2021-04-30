@@ -5,14 +5,14 @@ module Userlist
     module Transforms
       module HasRelationships
         def default_relationships
-          association = Userlist::Rails.find_association_between(relationship_from, relationship_to)
+          return unless association = Userlist::Rails.find_association_between(relationship_from, relationship_to)
 
-          records = Array.wrap(model.try(association&.name))
+          records = model.try(association.name)
 
           if association.klass == config.relationship_model
             records
           else
-            records.map { |record| build_relationship(record) }
+            Array.wrap(records).map { |record| build_relationship(record) }
           end
         end
 
