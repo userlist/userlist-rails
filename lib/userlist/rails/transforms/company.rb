@@ -1,9 +1,12 @@
 require 'userlist/rails/transform'
+require 'userlist/rails/transforms/has_relationships'
 
 module Userlist
   module Rails
     module Transforms
       class Company < Userlist::Rails::Transform
+        include HasRelationships
+
         def self.attributes
           @attributes ||= [
             :identifier,
@@ -14,26 +17,34 @@ module Userlist
           ]
         end
 
-        def identifier
-          model.try(:userlist_identifier) || "#{model.class.name}-#{model.id}".parameterize
+        def default_identifier
+          "#{model.class.name}-#{model.id}".parameterize
         end
 
-        def properties
-          model.try(:userlist_properties) || {}
+        def default_properties
+          {}
         end
 
-        def relationships
-          relationships_method = Userlist::Rails.find_reflection(config.company_model, config.relationship_model)&.name
-
-          model.try(:userlist_relationships) || (relationships_method && model.try(relationships_method))
+        def default_name
+          model.try(:name)
         end
 
-        def name
-          model.try(:userlist_name) || model.try(:name)
-        end
-
-        def signed_up_at
+        def default_signed_up_at
           model.try(:created_at)
+        end
+
+      private
+
+        def build_relationship(record)
+          { user: record }
+        end
+
+        def relationship_from
+          config.company_model
+        end
+
+        def relationship_to
+          config.user_model
         end
       end
     end

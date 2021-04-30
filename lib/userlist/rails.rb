@@ -59,6 +59,12 @@ module Userlist
       from.reflect_on_all_associations.find { |r| r.class_name == to.to_s }
     end
 
+    def self.find_association_between(from, to)
+      return unless association = Userlist::Rails.find_reflection(from, to)
+
+      association.through_reflection || association
+    end
+
     def self.setup_callbacks(model, scope)
       return if model.instance_variable_get(:@userlist_callbacks_registered)
 

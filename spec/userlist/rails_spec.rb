@@ -52,9 +52,49 @@ RSpec.describe Userlist::Rails do
   end
 
   describe '.detect_relationship' do
-    it 'should detect the relationship model between to other models' do
-      relationship = described_class.detect_relationship(User, Company)
-      expect(relationship).to eq(Membership)
+    context 'when it is a has many through relationship' do
+      let(:scope) { HasManyThrough }
+
+      it 'should detect the relationship model between to other models' do
+        relationship = described_class.detect_relationship(scope::User, scope::Company)
+        expect(relationship).to eq(scope::Membership)
+      end
+    end
+
+    context 'when it is a has and belongs to many relationship' do
+      let(:scope) { HasAndBelongsToMany }
+
+      it 'should not detect a relationship model between to other models' do
+        relationship = described_class.detect_relationship(scope::User, scope::Company)
+        expect(relationship).to eq(nil)
+      end
+    end
+
+    context 'when it is a has many relationship' do
+      let(:scope) { HasManyCompanies }
+
+      it 'should not detect a relationship model between to other models' do
+        relationship = described_class.detect_relationship(scope::User, scope::Company)
+        expect(relationship).to eq(nil)
+      end
+    end
+
+    context 'when it is a has one relationship' do
+      let(:scope) { HasOneCompany }
+
+      it 'should not detect a relationship model between to other models' do
+        relationship = described_class.detect_relationship(scope::User, scope::Company)
+        expect(relationship).to eq(nil)
+      end
+    end
+
+    context 'when it is a belongs to relationship' do
+      let(:scope) { HasManyUsers }
+
+      it 'should not detect a relationship model between to other models' do
+        relationship = described_class.detect_relationship(scope::User, scope::Company)
+        expect(relationship).to eq(nil)
+      end
     end
   end
 end

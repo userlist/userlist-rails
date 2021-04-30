@@ -11,7 +11,7 @@ module Userlist
       end
 
       def [](name)
-        public_send(name) if key?(name)
+        model.try("userlist_#{name}") || public_send("default_#{name}") if key?(name)
       end
 
       def key?(name)
