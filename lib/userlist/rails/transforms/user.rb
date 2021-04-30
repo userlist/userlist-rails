@@ -1,9 +1,12 @@
 require 'userlist/rails/transform'
+require 'userlist/rails/transforms/has_relationships'
 
 module Userlist
   module Rails
     module Transforms
       class User < Userlist::Rails::Transform
+        include HasRelationships
+
         def self.attributes
           @attributes ||= [
             :identifier,
