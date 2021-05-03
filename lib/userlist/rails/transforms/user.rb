@@ -36,7 +36,10 @@ module Userlist
       private
 
         def build_relationship(record)
-          { company: record }
+          {
+            user: model,
+            company: record
+          }
         end
 
         def relationship_from

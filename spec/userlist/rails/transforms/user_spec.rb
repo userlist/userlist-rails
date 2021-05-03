@@ -76,7 +76,7 @@ RSpec.describe Userlist::Rails::Transforms::User do
       end
 
       it 'should return the relationships' do
-        expect(subject.default_relationships).to eq(user.companies.map { |company| { company: company } })
+        expect(subject.default_relationships).to eq(user.companies.map { |company| { user: user, company: company } })
       end
     end
 
@@ -89,7 +89,7 @@ RSpec.describe Userlist::Rails::Transforms::User do
       end
 
       it 'should return the relationships' do
-        expect(subject.default_relationships).to eq(user.companies.map { |company| { company: company } })
+        expect(subject.default_relationships).to eq(user.companies.map { |company| { user: user, company: company } })
       end
     end
 
@@ -102,7 +102,7 @@ RSpec.describe Userlist::Rails::Transforms::User do
       end
 
       it 'should return the relationships' do
-        expect(subject.default_relationships).to eq([{ company: user.company }])
+        expect(subject.default_relationships).to eq([{ user: user, company: user.company }])
       end
     end
 
@@ -115,7 +115,7 @@ RSpec.describe Userlist::Rails::Transforms::User do
       end
 
       it 'should return the relationships' do
-        expect(subject.default_relationships).to eq([{ company: user.company }])
+        expect(subject.default_relationships).to eq([{ user: user, company: user.company }])
       end
     end
   end

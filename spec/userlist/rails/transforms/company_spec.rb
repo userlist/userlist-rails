@@ -47,14 +47,23 @@ RSpec.describe Userlist::Rails::Transforms::Company do
     context 'when it is a has many through relationship' do
       let(:user_model) { HasManyThrough::User }
       let(:company_model) { HasManyThrough::Company }
+      let(:relationship_model) { HasManyThrough::Membership }
 
       before do
-        config.relationship_model = HasManyThrough::Membership
+        config.relationship_model = relationship_model
         company.memberships.create!(user: user)
       end
 
       it 'should return the relationships' do
         expect(subject.default_relationships).to eq(company.memberships)
+      end
+
+      context 'when there explicitly is no relationship model' do
+        let(:relationship_model) { nil }
+
+        it 'should return nothing' do
+          expect(subject.default_relationships).to_not be
+        end
       end
     end
 
@@ -67,7 +76,7 @@ RSpec.describe Userlist::Rails::Transforms::Company do
       end
 
       it 'should return the relationships' do
-        expect(subject.default_relationships).to eq(company.users.map { |user| { user: user } })
+        expect(subject.default_relationships).to eq(company.users.map { |user| { company: company, user: user } })
       end
     end
 
@@ -80,7 +89,7 @@ RSpec.describe Userlist::Rails::Transforms::Company do
       end
 
       it 'should return the relationships' do
-        expect(subject.default_relationships).to eq(company.users.map { |user| { user: user } })
+        expect(subject.default_relationships).to eq(company.users.map { |user| { company: company, user: user } })
       end
     end
 
@@ -93,7 +102,7 @@ RSpec.describe Userlist::Rails::Transforms::Company do
       end
 
       it 'should return the relationships' do
-        expect(subject.default_relationships).to eq([{ user: company.user }])
+        expect(subject.default_relationships).to eq([{ company: company, user: company.user }])
       end
     end
 
@@ -106,7 +115,7 @@ RSpec.describe Userlist::Rails::Transforms::Company do
       end
 
       it 'should return the relationships' do
-        expect(subject.default_relationships).to eq([{ user: company.user }])
+        expect(subject.default_relationships).to eq([{ company: company, user: company.user }])
       end
     end
   end
