@@ -233,6 +233,20 @@ class User < ApplicationRecord
 end
 ```
 
+If you don't have a dedicated model describing the relationship, you can return a hash including both the user and the company model.
+
+```ruby
+class User < ApplicationRecord
+  def userlist_relationships
+    [
+      {
+        user: self,
+        company: account
+      }
+    ]
+  end
+end
+```
 
 #### Ignoring relationships
 
