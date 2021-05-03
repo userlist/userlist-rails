@@ -11,7 +11,7 @@ module Userlist
 
           if association.klass == config.relationship_model
             records
-          else
+          elsif association.klass == relationship_to
             Array.wrap(records).map { |record| build_relationship(record) }
           end
         end

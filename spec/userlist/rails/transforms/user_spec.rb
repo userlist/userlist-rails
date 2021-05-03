@@ -47,14 +47,23 @@ RSpec.describe Userlist::Rails::Transforms::User do
     context 'when it is a has many through relationship' do
       let(:user_model) { HasManyThrough::User }
       let(:company_model) { HasManyThrough::Company }
+      let(:relationship_model) { HasManyThrough::Membership }
 
       before do
-        config.relationship_model = HasManyThrough::Membership
+        config.relationship_model = relationship_model
         user.memberships.create!(company: company)
       end
 
       it 'should return the relationships' do
         expect(subject.default_relationships).to eq(user.memberships)
+      end
+
+      context 'when there explicitly is no relationship model' do
+        let(:relationship_model) { nil }
+
+        it 'should return nothing' do
+          expect(subject.default_relationships).to_not be
+        end
       end
     end
 
