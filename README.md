@@ -265,10 +265,10 @@ end
 
 #### Deleting relationships
 
-It's also possible to delete a relationship from Userlist, using the `Userlist::Push.relationship.delete` method.
+It's also possible to delete a relationship from Userlist, using the `Userlist::Push.relationships.delete` method.
 
 ```ruby
-Userlist::Push.relationship.delete(membership)
+Userlist::Push.relationships.delete(membership)
 ```
 
 ### Tracking Events
