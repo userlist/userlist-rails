@@ -33,7 +33,7 @@ class ENVCache
 
   def store!
     @cache = ENV.keys.grep(pattern).each_with_object({}) do |key, cache|
-      cache[key] = ENV[key]
+      cache[key] = ENV.fetch(key, nil)
     end
   end
 
