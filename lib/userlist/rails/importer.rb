@@ -9,8 +9,8 @@ module Userlist
       def import(model, &block)
         find_each(model) do |record|
           print "Pushing #{model.name} #{record.id}..."
-          instance_exec(record, &block)
-          print " ✔︎\n"
+          result = instance_exec(record, &block)
+          puts success?(result) ? ' ✔︎' : ' ✗'
         end
       end
 
@@ -30,6 +30,10 @@ module Userlist
         else
           raise "Cannot iterate over #{model} because it doesn't implement .find_each, nor .each"
         end
+      end
+
+      def success?(result)
+        (200..300).cover?(result.code.to_i)
       end
     end
   end
