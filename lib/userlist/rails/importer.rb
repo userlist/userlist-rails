@@ -8,9 +8,9 @@ module Userlist
 
       def import(model, &block)
         find_each(model) do |record|
-          print "Pushing #{model.name} #{record.id}..."
+          print "Pushing #{model.name} #{record.id}... "
           result = instance_exec(record, &block)
-          puts success?(result) ? ' ✔︎' : ' ✗'
+          puts status(result)
         end
       end
 
@@ -32,10 +32,11 @@ module Userlist
         end
       end
 
-      def success?(result)
-        return false unless result
+      def status(result)
+        return '⊝' if result.nil?
+        return '✔' if (200..300).cover?(result.code.to_i)
 
-        (200..300).cover?(result.code.to_i)
+        '✗'
       end
     end
   end
