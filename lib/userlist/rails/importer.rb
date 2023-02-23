@@ -33,6 +33,8 @@ module Userlist
       end
 
       def success?(result)
+        return false unless result
+
         (200..300).cover?(result.code.to_i)
       end
     end
