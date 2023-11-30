@@ -83,7 +83,7 @@ module Userlist
           relation = Userlist::Push.public_send(scope)
           relation.public_send(method, self)
         rescue Userlist::Error => e
-          Userlist.logger.error "Failed to #{method} #{method.to_s.singularize}: #{e.message}"
+          Userlist.logger.error "Failed to #{method} #{scope.to_s.singularize}: #{e.message}"
         end
       end
 
