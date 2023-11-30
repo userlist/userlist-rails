@@ -25,13 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'railties', '>= 5.0'
   spec.add_dependency 'userlist', '~> 0.6'
 
-  spec.add_development_dependency 'actionpack', '>= 5.0'
-  spec.add_development_dependency 'activerecord', '>= 5.0'
-  spec.add_development_dependency 'bundler', '>= 1.15'
-  spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'rspec-rails', '~> 6.0'
-  spec.add_development_dependency 'sqlite3', '>= 1.4'
-
   spec.metadata = { 'rubygems_mfa_required' => 'true' }
 end
