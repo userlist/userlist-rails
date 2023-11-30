@@ -44,5 +44,27 @@ RSpec.describe Userlist::Rails::Extensions::Company do
         expect(resource.signed_up_at).to eq(company.created_at)
       end
     end
+
+    describe '#push?' do
+      it 'should return true by default' do
+        expect(resource.push?).to eq(true)
+      end
+
+      it 'should return the value of the userlist_push? method' do
+        company.define_singleton_method(:userlist_push?) { false }
+        expect(resource.push?).to eq(false)
+      end
+    end
+
+    describe '#delete?' do
+      it 'should return false by default' do
+        expect(resource.delete?).to eq(true)
+      end
+
+      it 'should return the value of the userlist_delete? method' do
+        company.define_singleton_method(:userlist_delete?) { false }
+        expect(resource.delete?).to eq(false)
+      end
+    end
   end
 end
