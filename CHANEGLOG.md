@@ -1,5 +1,9 @@
 # Userlist for Ruby on Rails Changelog
 
+## v0.6.2 (2023-11-30)
+
+- Upgrades dependencies
+
 ## v0.6.1 (2021-05-14)
 
 - Upgrades dependencies

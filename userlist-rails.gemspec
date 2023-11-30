@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'activesupport', '>= 5.0'
   spec.add_dependency 'railties', '>= 5.0'
-  spec.add_dependency 'userlist', '~> 0.6'
+  spec.add_dependency 'userlist', '~> 0.8', '>= 0.8.1'
 
   spec.metadata = { 'rubygems_mfa_required' => 'true' }
 end
