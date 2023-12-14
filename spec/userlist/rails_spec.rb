@@ -26,18 +26,31 @@ RSpec.describe Userlist::Rails do
     end
 
     context 'when the user is updated' do
+      let(:model) { model_class.create }
+
       it 'should push the user' do
-        model = model_class.create
         expect(Userlist::Push.users).to receive(:push).with(model)
         model.save
       end
     end
 
     context 'when the user is destroyed' do
+      let(:model) { model_class.create }
+
       it 'should delete the user' do
-        model = model_class.create
         expect(Userlist::Push.users).to receive(:delete).with(model)
         model.destroy
+      end
+
+      context 'when the destroy behavior is push' do
+        before do
+          model.define_singleton_method(:userlist_destroy_behavior) { :push }
+        end
+
+        it 'should push the user' do
+          expect(Userlist::Push.users).to receive(:push).with(model)
+          model.save
+        end
       end
     end
 

@@ -75,11 +75,13 @@ module Userlist
       model.instance_variable_set(:@userlist_callbacks_registered, true)
     end
 
-    def self.setup_callback(type, model, scope, method)
+    def self.setup_callback(type, model, scope, default_method)
       return unless callback_method = [:after_commit, :"after_#{type}"].find { |m| model.respond_to?(m) }
 
       callback = lambda do
         begin
+          method = try(:"userlist_#{type}_behavior") || default_method
+
           relation = Userlist::Push.public_send(scope)
           relation.public_send(method, self)
         rescue Userlist::Error => e
