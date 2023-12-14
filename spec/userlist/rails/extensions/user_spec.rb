@@ -15,6 +15,48 @@ RSpec.describe Userlist::Rails::Extensions::User do
       it 'should use the model\'s name and id as fallback' do
         expect(resource.identifier).to eq('user-1')
       end
+
+      context 'when the user is destroyed' do
+        before { user.destroy! }
+
+        it 'should not use the model\'s userlist_identifier' do
+          user.define_singleton_method(:userlist_identifier) { 'custom_identifier' }
+          expect(resource.identifier).to eq(nil)
+        end
+
+        it 'should return nothing' do
+          expect(resource.identifier).to eq(nil)
+        end
+      end
+    end
+
+    context 'for identifiers' do
+      it 'should not use the model\'s userlist_identifiers' do
+        user.define_singleton_method(:userlist_identifiers) { [{ scope: 'custom', identifier: 'custom_identifier' }] }
+        expect(resource.identifiers).to eq(nil)
+      end
+
+      it 'should use nothing as fallback' do
+        expect(resource.identifiers).to eq(nil)
+      end
+
+      context 'when the user is destroyed' do
+        before { user.destroy! }
+
+        it 'should use the model\'s userlist_identifiers' do
+          user.define_singleton_method(:userlist_identifiers) { [{ scope: 'custom', identifier: 'custom_identifier' }] }
+          expect(resource.identifiers).to eq([{ scope: 'custom', identifier: 'custom_identifier' }])
+        end
+
+        it 'should use the identfier as fallback' do
+          expect(resource.identifiers).to eq([{ scope: 'custom', identifier: 'user-1' }])
+        end
+
+        it 'should respect a customized identifier as fallback' do
+          user.define_singleton_method(:userlist_identifier) { 'custom_identifier' }
+          expect(resource.identifiers).to eq([{ scope: 'custom', identifier: 'custom_identifier' }])
+        end
+      end
     end
 
     context 'for email' do

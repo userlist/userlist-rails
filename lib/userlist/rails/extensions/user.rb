@@ -17,12 +17,26 @@ module Userlist
           base.extend(ClassMethods)
         end
 
+        def identifier
+          super unless destroyed?
+        end
+
+        def identifiers
+          super if destroyed?
+        end
+
         def push?
           super && (!payload.respond_to?(:push?) || payload.push?)
         end
 
         def delete?
           super && (!payload.respond_to?(:delete?) || payload.delete?)
+        end
+
+      private
+
+        def destroyed?
+          !payload.respond_to?(:destroyed?) || payload.destroyed?
         end
       end
     end

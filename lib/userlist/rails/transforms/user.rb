@@ -12,6 +12,7 @@ module Userlist
             :identifier,
             :properties,
             :relationships,
+            :identifiers,
             :email,
             :signed_up_at
           ]
@@ -31,6 +32,10 @@ module Userlist
 
         def default_signed_up_at
           model.try(:created_at)
+        end
+
+        def default_identifiers
+          [{ scope: 'custom', identifier: self[:identifier] }]
         end
 
       private
