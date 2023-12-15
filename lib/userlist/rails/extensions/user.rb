@@ -18,11 +18,11 @@ module Userlist
         end
 
         def identifier
-          super unless destroyed?
+          super if !payload.respond_to?(:destroyed?) || !payload.destroyed?
         end
 
         def identifiers
-          super if destroyed?
+          super if payload.respond_to?(:destroyed?) && payload.destroyed?
         end
 
         def push?
@@ -31,12 +31,6 @@ module Userlist
 
         def delete?
           super && (!payload.respond_to?(:delete?) || payload.delete?)
-        end
-
-      private
-
-        def destroyed?
-          !payload.respond_to?(:destroyed?) || payload.destroyed?
         end
       end
     end

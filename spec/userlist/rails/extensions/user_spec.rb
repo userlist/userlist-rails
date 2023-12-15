@@ -28,6 +28,16 @@ RSpec.describe Userlist::Rails::Extensions::User do
           expect(resource.identifier).to eq(nil)
         end
       end
+
+      context 'when the payload is not a user model' do
+        let(:user) do
+          { identifier: 'user-1', email: 'foo@example.com' }
+        end
+
+        it 'should use the given identifier' do
+          expect(resource.identifier).to eq('user-1')
+        end
+      end
     end
 
     context 'for identifiers' do
