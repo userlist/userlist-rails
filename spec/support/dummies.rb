@@ -99,3 +99,25 @@ module HasOneUser
     has_one :user, class_name: 'HasOneUser::User'
   end
 end
+
+module MultipleRelationships
+  class User < ActiveRecord::Base
+    has_many :memberships, class_name: 'MultipleRelationships::Membership'
+    has_many :companies, through: :memberships, class_name: 'MultipleRelationships::Company'
+
+    has_many :direct_companies, class_name: 'MultipleRelationships::Company'
+    has_one :company, class_name: 'MultipleRelationships::Company'
+  end
+
+  class Company < ActiveRecord::Base
+    has_many :direct_users, class_name: 'MultipleRelationships::User'
+
+    has_many :memberships, class_name: 'MultipleRelationships::Membership'
+    has_many :users, through: :memberships, class_name: 'MultipleRelationships::User'
+  end
+
+  class Membership < ActiveRecord::Base
+    belongs_to :user, class_name: 'MultipleRelationships::User'
+    belongs_to :company, class_name: 'MultipleRelationships::Company'
+  end
+end

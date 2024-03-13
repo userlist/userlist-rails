@@ -1,5 +1,9 @@
 # Userlist for Ruby on Rails Changelog
 
+## Unreleased (main)
+
+- Fix detection of relationships when there are multiple associations between users and companies
+
 ## v0.6.2 (2023-11-30)
 
 - Upgrades dependencies

@@ -11,6 +11,12 @@ module Userlist
       :userlist_user
     ].freeze
 
+    REFLECTION_PRIORITY = [
+      ActiveRecord::Reflection::ThroughReflection,
+      ActiveRecord::Reflection::HasManyReflection,
+      ActiveRecord::Reflection::HasOneReflection
+    ].freeze
+
     def self.with_current_user(user)
       Thread.current[:userlist_current_user] = user
       yield
@@ -56,7 +62,10 @@ module Userlist
     def self.find_reflection(from, to)
       return unless from && to
 
-      from.reflect_on_all_associations.find { |r| r.class_name == to.to_s }
+      from
+        .reflect_on_all_associations
+        .sort_by { |r| REFLECTION_PRIORITY.index(r.class) || REFLECTION_PRIORITY.length }
+        .find { |r| r.class_name == to.to_s }
     end
 
     def self.find_association_between(from, to)
