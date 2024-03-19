@@ -94,8 +94,8 @@ RSpec.describe Userlist::Rails::Transforms::User do
     end
 
     context 'when it is a has one relationship' do
-      let(:user_model) { HasManyUsers::User }
-      let(:company_model) { HasManyUsers::Company }
+      let(:user_model) { HasOneCompany::User }
+      let(:company_model) { HasOneCompany::Company }
 
       before do
         user.company = company
