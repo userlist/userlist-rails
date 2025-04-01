@@ -3,6 +3,7 @@
 ## Unreleased (main)
 
 - Fix detection of relationships when there are multiple associations between users and companies
+- Register Userlist::DeliveryMethod when it's available
 
 ## v0.6.2 (2023-11-30)
 
@@ -15,7 +16,7 @@
 ## v0.6.0 (2021-05-14)
 
 - Improves handling of relationships across different setups (1:1, 1:n, and n:m)
-- Automatically call userlist_* methods on models in transforms
+- Automatically call userlist\_\* methods on models in transforms
 
 ## v0.5.3 (2021-04-15)
 
@@ -51,7 +52,6 @@
 
 - Use Userlist::Push::Resources to transform payloads
 - Upgrades dependencies
-
 
 ## v0.2.2 (2019-03-18)
 

@@ -36,7 +36,7 @@ module Userlist
       end
 
       initializer 'userlist.helpers' do
-        ActiveSupport.on_load :action_view do
+        ActiveSupport.on_load(:action_view) do
           include Userlist::Rails::Helpers
         end
       end
@@ -73,6 +73,12 @@ module Userlist
             Userlist.logger.info("Preparing relationship model #{relationship_model}")
             Userlist::Rails.setup_callbacks(relationship_model, :relationships)
           end
+        end
+      end
+
+      initializer 'userlist.delivery_method', before: 'action_mailer.set_configs' do
+        ActiveSupport.on_load(:action_mailer) do
+          ActionMailer::Base.add_delivery_method(:userlist, Userlist::DeliveryMethod) if defined?(Userlist::DeliveryMethod)
         end
       end
     end
