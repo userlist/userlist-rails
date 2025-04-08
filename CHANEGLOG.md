@@ -2,6 +2,8 @@
 
 ## Unreleased (main)
 
+## v1.0.0 (2025-04-08)
+
 - Fix detection of relationships when there are multiple associations between users and companies
 - Register Userlist::DeliveryMethod when it's available
 
