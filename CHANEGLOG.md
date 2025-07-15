@@ -2,6 +2,8 @@
 
 ## Unreleased (main)
 
+- Don't swallow errors caused by errors in the model class when detecting models
+
 ## v1.0.0 (2025-04-08)
 
 - Fix detection of relationships when there are multiple associations between users and companies

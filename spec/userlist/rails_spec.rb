@@ -124,4 +124,22 @@ RSpec.describe Userlist::Rails do
       end
     end
   end
+
+  describe '.detect_model' do
+    it 'should raise an error when the model name is invalid' do
+      expect { described_class.detect_model('invalid') }.to raise_error(NameError)
+    end
+
+    it 'should not raise an error when the model is not found' do
+      expect { described_class.detect_model('NonExistentModel') }.not_to raise_error
+    end
+
+    it 'should return the model class when it exists' do
+      expect(described_class.detect_model('User')).to eq(User)
+    end
+
+    it 'should return the first model that exists when given a list of model names' do
+      expect(described_class.detect_model('NonExistentModel', 'User')).to eq(User)
+    end
+  end
 end
