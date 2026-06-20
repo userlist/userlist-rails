@@ -33,7 +33,7 @@ module Userlist
       end
 
       def status(result)
-        return '⊝' if result.nil?
+        return '⊝' unless result
         return '✔' if (200..300).cover?(result.code.to_i)
 
         '✗'
